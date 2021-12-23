@@ -147,7 +147,7 @@
       <form method="POST" action="<?php echo base_url('Backdoor/Delete_Kategori'); ?>">
       <div class="form-group">
       <input type="text" name="id_kategori"  class="form-control id_kategori_delete" hidden>
-      <p id="p1"  text-align: justify;> </p>
+      <p id="p1"  text-align: justify;> Apakah Anda yakin untuk menghapus kategori ini?</p>
       </div>
     </div>
     <div class="modal-footer">
@@ -287,16 +287,16 @@ $('#deleteModal').on('show.bs.modal', function (e) {
   var _jenis_kategori_delete = _row.find(".jenis_kategori").text();
   $(this).find(".id_kategori_delete").val(_id_kategori_delete);
   
-  let x = "Kategori Utama";
-  let y = "Sub Kategori 1";
-  let z = "Sub Kategori 2";
-  if(_jenis_kategori_delete.valueOf() == x.valueOf()) {
-    document.getElementById("p1").innerHTML = "Menghapus Kategori Utama akan menghapus Sub Kategori 1 dan 2 dari Kategori Utama. Apakah Anda yakin untuk menghapus kategori ini?";
-  } else if(_jenis_kategori_delete.valueOf() == y.valueOf()) {
-    document.getElementById("p1").innerHTML = "Menghapus Sub Kategori 1 akan menghapus Sub Kategori 2 dari Sub Kategori 1. Apakah Anda yakin untuk menghapus kategori ini?";
-  } else if(_jenis_kategori_delete.valueOf() == z.valueOf()) {
-    document.getElementById("p1").innerHTML = "Apakah Anda yakin untuk menghapus kategori ini?";
-  }
+  // let x = "Kategori Utama";
+  // let y = "Sub Kategori 1";
+  // let z = "Sub Kategori 2";
+  // if(_jenis_kategori_delete.valueOf() == x.valueOf()) {
+  //   document.getElementById("p1").innerHTML = "Menghapus Kategori Utama akan menghapus Sub Kategori 1 dan 2 dari Kategori Utama. Apakah Anda yakin untuk menghapus kategori ini?";
+  // } else if(_jenis_kategori_delete.valueOf() == y.valueOf()) {
+  //   document.getElementById("p1").innerHTML = "Menghapus Sub Kategori 1 akan menghapus Sub Kategori 2 dari Sub Kategori 1. Apakah Anda yakin untuk menghapus kategori ini?";
+  // } else if(_jenis_kategori_delete.valueOf() == z.valueOf()) {
+  //   document.getElementById("p1").innerHTML = "Apakah Anda yakin untuk menghapus kategori ini?";
+  // }
 
  
 

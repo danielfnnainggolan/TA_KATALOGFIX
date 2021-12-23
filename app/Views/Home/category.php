@@ -133,7 +133,7 @@
 									<p><b><?php echo $row->nama;?></b></p>
 									<ul class="contact">
 										<li class="icon solid fa-envelope"> <?= safe_mailto($row->email, $row->email);?></li>
-										<li class="icon solid fa-phone"><?php echo $row->nomor_hp;?></li>
+										<li class="icon solid fa-phone"><?php echo $row->no_hp;?></li>
 										<li class="icon solid fa-building"><?php echo $row->alamat;?></li>
 									</ul>
 									<?php } ?>

@@ -69,10 +69,10 @@ class Backdoor extends BaseController
 
 		public function Katalog()
 		  {
-				$model = new CustomModel;
-				$data['katalog'] = $model->getKatalog();
-				$data['merek'] = $this->merek->findAll();
-				$data['kategori'] = $this->kategori->findAll();
+			$model = new CustomModel;
+			$data['katalog'] = $model->getKatalog();
+			$data['merek'] = $this->merek->findAll();
+			$data['kategori'] = $this->kategori->findAll();
 
 		    echo view('Backdoor/katalog', $data);
 			echo view('Backdoor/sidebar');
@@ -103,15 +103,35 @@ class Backdoor extends BaseController
 
 	public function Add_Katalog()
 			{
-				$data = [
-		    		'nama_barang' => $this->request->getPost('nama_barang'),
+				$file = $this->request->getFile('gambar_katalog');
+				$validation = $this->validate([
+					'gambar_katalog' => 'uploaded[gambar_katalog] |is_image[gambar_katalog]',
+				]);
+
+				if($validation) {
+					$file->move('uploads', $this->request->getPost('nama_barang').'.jpg');
+					$path = $file->getName();
+					$data = [
+		    			'nama_barang' => $this->request->getPost('nama_barang'),
 						'id_merek' => $this->request->getPost('id_merek'),
 						'harga' => (int)preg_replace('/[^\d]/', '', $this->request->getPost('harga')),
 						'id_kategori' => $this->request->getPost('id_kategori'),
-						'stok' => (int)$this->request->getPost('stok'),
+						'image' => $path,
 								];
-
-				$this->katalog->insert($data);
+	
+							
+					$this->katalog->insert($data);
+					$id_katalog = $this->katalog->selectMax('id_katalog')->first();
+				
+					$data = [
+						'id_katalog' => $id_katalog['id_katalog'],
+						'status' => (int)$this->request->getPost('stok'),
+				];		
+				
+				$this->stok->insert($data);
+				}
+				
+				
 				return redirect()->to('Backdoor/Katalog');
 			}
 
@@ -213,7 +233,7 @@ class Backdoor extends BaseController
 									];
 
 				 $this->stok->update($id, $data);
-				 return redirect()->to('Backdoor/History');
+				 return redirect()->to('Backdoor/Stok');
 			}
 
 	public function Delete_Stok()
@@ -221,21 +241,7 @@ class Backdoor extends BaseController
 				$id = $this->request->getPost('id_stok');
 
 				$this->stok->delete($id);
-				return redirect()->to('Backdoor/History');
-			}
-
-	public function Add_Stok_History()
-			{
-				
-				$data = [
-						'id_katalog' => $this->request->getPost('id_katalog'), 
-						'status' => $this->request->getPost('status'),
-						'keterangan' => $this->request->getPost('keterangan'),
-								 ];
-
-				$this->stok->insert($data);
-
-				return redirect()->to('Backdoor/History');
+				return redirect()->to('Backdoor/Stok');
 			}
 
 	public function Add_Stok()
@@ -251,6 +257,8 @@ class Backdoor extends BaseController
 
 				return redirect()->to('Backdoor/Stok');
 			}
+
+	
 
 	public function Kategori()
 			{
@@ -315,13 +323,13 @@ class Backdoor extends BaseController
 
 				$model = new CustomModel;
 				$data['kategori'] = $model->getKategori();
-				foreach($data['kategori'] as $row) {
-					if($row->id_kategori1 == $id_kategori || $row->parent_kategori1 == $id_kategori || $row->id_kategori == $id_kategori) {
-						array_push($id, $row->id_kategori);
-					}
-				}
+				// foreach($data['kategori'] as $row) {
+				// 	if($row->id_kategori1 == $id_kategori || $row->parent_kategori1 == $id_kategori || $row->id_kategori == $id_kategori) {
+				// 		array_push($id, $row->id_kategori);
+				// 	}
+				// }
 
-				$this->kategori->delete($id);
+				$this->kategori->delete($id_kategori);
 				return redirect()->to('Backdoor/Kategori');
 			}
 	public function Account()

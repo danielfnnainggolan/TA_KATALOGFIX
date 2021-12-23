@@ -65,7 +65,7 @@
             <li class="nav-item">
               <a href="<?= base_url('Backdoor/History');?>" class="nav-link">
                 <i class="nav-icon fas fa-history"></i>
-                <p>Stok History</p>
+                <p>Stock History</p>
               </a>
             </li>
             <li class="nav-item">

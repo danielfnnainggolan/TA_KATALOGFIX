@@ -65,6 +65,7 @@ th.dpass, td.dpass {display: none;}
               <th class="noExport" style="text-align: center;">ID Kategori</th>
               <th style="text-align: center;">Harga</th>
               <th style="text-align: center;">Stok</th>
+              <th style="text-align: center;">Gambar</th>
               <th class="noExport" style="text-align: center;">Aksi</th>
 
             </tr>
@@ -84,6 +85,7 @@ th.dpass, td.dpass {display: none;}
               <td class="id_kategori" style="text-align: center;"><?php echo $row->id_kategori; ?></td>
               <td class="harga" style="text-align: center;"><?php echo "Rp. ".number_format($row->harga,0,',','.'); ?> </td>
               <td class="stok" style="text-align: center;"><?php echo $row->stok; ?></td>
+              <td style="text-align: center;"><a href="" data-bs-toggle="modal" data-bs-target="#detailModal"><img src="<?php echo base_url('uploads/'.$row->image);?>" style="width:100px;height:100px;"></a></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
@@ -150,6 +152,27 @@ th.dpass, td.dpass {display: none;}
   </div>
 </div>
 
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"> Gambar</h5>
+      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img src="<?php echo base_url('uploads/img2.webp');?>">
+      <?php var_dump($katalog[0]);?>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tutup</button>
+      
+    </form>
+    </div>
+  </div>
+</div>
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -186,7 +209,7 @@ th.dpass, td.dpass {display: none;}
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Katalog'); ?>">
+      <form method="POST" action="<?php echo base_url('Backdoor/Add_Katalog'); ?>" enctype="multipart/form-data">
       <div class="form-group">
 
       <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control" required>
@@ -212,6 +235,7 @@ th.dpass, td.dpass {display: none;}
         <?php }} ?>
       </select>
       <label for="harga">Stok</label><input type="number" name="stok"  class="form-control">
+      <label for="harga">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
       </div>
     </div>
     <div class="modal-footer">
@@ -360,6 +384,12 @@ $('#deleteModal').on('show.bs.modal', function (e) {
   var _row = _button.parents("tr");
   var _id_katalog_delete = _row.find(".id_katalog").text();
   $(this).find(".id_katalog_delete").val(_id_katalog_delete);
+
+});
+
+$('#detailModal').on('show.bs.modal', function (e) {
+    
+
 
 });
 

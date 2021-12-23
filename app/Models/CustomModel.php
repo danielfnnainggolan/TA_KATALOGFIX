@@ -11,7 +11,7 @@ class CustomModel extends Model
   public function getKatalog()
   {
     $builder = $this->db->table('katalog');
-    $builder->select('katalog.id_katalog, katalog.nama_barang, katalog.id_merek, merek.nama_merek,SUM(stok.status) AS stok, katalog.harga, kategori.nama_kategori, katalog.id_kategori');
+    $builder->select('katalog.id_katalog, katalog.nama_barang, katalog.id_merek, merek.nama_merek,SUM(stok.status) AS stok, katalog.harga, kategori.nama_kategori, katalog.id_kategori, katalog.image');
     $builder->join('merek', 'merek.id_merek = katalog.id_merek', 'left');
     $builder->join('kategori', 'kategori.id_kategori = katalog.id_kategori', 'left');
     $builder->join('stok', 'stok.id_katalog = katalog.id_katalog', 'left');
@@ -38,18 +38,6 @@ class CustomModel extends Model
     return $query;
   }
 
-
-  public function getStok()
-  {
-    $builder = $this->db->table('katalog');
-    $builder->select('stok.id_katalog, stok.id, SUM(stok.status) AS stok,  stok.keterangan, katalog.nama_barang, stok.createdAt');
-    $builder->join('stok', 'stok.id_katalog = katalog.id_katalog', 'left');
-    $builder->groupBy('stok.id_katalog');
-
-
-    $query = $builder->get()->getResult();
-    return $query;
-  }
 
   public function getKontak()
   {
@@ -133,6 +121,19 @@ class CustomModel extends Model
   public function getHistory()
   {
     $builder = $this->db->table('katalog');
+    $builder->select('stok.id_katalog, stok.id, SUM(stok.status) AS stok,  stok.keterangan, katalog.nama_barang, stok.createdAt');
+    $builder->join('stok', 'stok.id_katalog = katalog.id_katalog', 'left');
+    $builder->groupBy('stok.id_katalog');
+
+
+    $query = $builder->get()->getResult();
+    return $query;
+  }
+
+  
+  public function getStok()
+  {
+    $builder = $this->db->table('katalog');
     $builder->select('stok.id_katalog, stok.id, stok.status, katalog.id_katalog,  stok.keterangan, katalog.nama_barang, stok.createdAt');
     $builder->join('stok', 'stok.id_katalog = katalog.id_katalog', 'left');
     $builder->orderBy('stok.createdAt', 'DESC');
@@ -142,8 +143,7 @@ class CustomModel extends Model
     return $query;
   }
 
-
-
+  
 
 
 
