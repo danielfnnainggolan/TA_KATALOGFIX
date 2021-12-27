@@ -22,7 +22,7 @@
   
 
 
-  
+  <?= $this->include('Backdoor/sidebar') ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

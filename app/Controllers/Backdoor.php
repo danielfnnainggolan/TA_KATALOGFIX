@@ -63,11 +63,14 @@ class Backdoor extends BaseController
 
 	public function Welcome()
 	  {
+		
 	    echo view('Backdoor/welcome');
-		echo view('Backdoor/sidebar');
+		
 	  }
 
-		public function Katalog()
+
+
+	public function Katalog()
 		  {
 			$model = new CustomModel;
 			$data['katalog'] = $model->getKatalog();
@@ -75,7 +78,7 @@ class Backdoor extends BaseController
 			$data['kategori'] = $this->kategori->findAll();
 
 		    echo view('Backdoor/katalog', $data);
-			echo view('Backdoor/sidebar');
+			
 		  }
 
 	public function Edit_Katalog()
@@ -86,10 +89,33 @@ class Backdoor extends BaseController
 						'id_merek' => $this->request->getPost('id_merek'),
 						'harga' => (int)preg_replace('/[^\d]/', '', $this->request->getPost('harga')),
 						'id_kategori' => $this->request->getPost('id_kategori'),
-						'stok' => (int)$this->request->getPost('stok'),
 									];
 
 				$this->katalog->update($id_katalog, $data);
+				if($this->request->getPost('stok') >= 0) {					
+				$data = [
+					'id_katalog' => $id_katalog,
+					'status' => (int) $this->request->getPost('stok') - $this->request->getPost('stok1'),
+					'keterangan' => "Pembaruan Stok dari Sistem"
+				];		
+
+				$this->stok->insert($data);
+				}
+				$file = $this->request->getFile('gambar_katalog');
+				$validation = $this->validate([
+					'gambar_katalog' => 'uploaded[gambar_katalog] |is_image[gambar_katalog]',
+				]);		
+
+				if($validation) {
+					$file->move('uploads', $this->request->getPost('nama_barang').'.jpg');
+					$path = $file->getName();
+					$data = [
+						'image' => $path,
+								];
+					$this->katalog->update($id_katalog, $data);
+				}
+
+				
 				return redirect()->to('Backdoor/Katalog');
 
 			}
@@ -140,7 +166,7 @@ class Backdoor extends BaseController
 				$model = new CustomModel;
 				$data['katalog'] = $model->getDeskripsi();
 				echo view('Backdoor/deskripsi', $data);
-				echo view('Backdoor/sidebar');
+				
 			}
 
 	public function Edit_Deskripsi()
@@ -180,7 +206,7 @@ class Backdoor extends BaseController
 			{
 				$data['merek'] = $this->merek->findAll();
 				echo view('Backdoor/merek', $data);
-				echo view('Backdoor/sidebar');
+				
 			}
 
 	public function Add_Merek()
@@ -212,7 +238,7 @@ class Backdoor extends BaseController
 				$model = new CustomModel;
 				$data['stok'] = $model->getStok();
 				echo view('Backdoor/Stok', $data);
-				echo view('Backdoor/Sidebar');
+				
 			}
 
 	public function History()
@@ -220,7 +246,7 @@ class Backdoor extends BaseController
 				$model = new CustomModel;
 				$data['stok'] = $model->getHistory();
 				echo view('Backdoor/History', $data);
-				echo view('Backdoor/Sidebar');
+				
 			}
 
 	public function Edit_Stok()
@@ -266,7 +292,7 @@ class Backdoor extends BaseController
 				$data['kategori'] = $model->getKategori();
 				
 				echo view('Backdoor/Kategori', $data);
-				echo view('Backdoor/Sidebar');
+				
 			}
 
 	public function Add_Kategori()
@@ -337,7 +363,7 @@ class Backdoor extends BaseController
 		$data['admin'] = $this->user->find(session()->get('id_admin'));
 		
 	    echo view('Backdoor/account', $data);
-		echo view('Backdoor/sidebar');
+		
 	  }
 
 	public function Account_Change()

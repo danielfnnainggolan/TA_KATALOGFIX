@@ -37,7 +37,7 @@
 		
 
 </style>
-		<title>Judul</title>
+		<title>CV. Karya Graha Agung</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.css');?>" />
@@ -63,14 +63,9 @@
   									<div class="carousel-indicators">
     									<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     									<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    									<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   									</div>
   									<div class="carousel-inner">
     									<div class="carousel-item active">
-
-      									<img src="http://placekitten.com/700/300" class="d-block w-100 img-fluid" alt="...">
-    									</div>
-    									<div class="carousel-item">
       									<img src="<?php echo base_url('images/img2.webp');?>" class="d-block w-100 img-fluid" alt="...">
     									</div>
     									<div class="carousel-item">
@@ -94,7 +89,7 @@
 
 								<section>
 									<header class="major">
-										<h2>Erat lacinia</h2>
+										<h2>Our Services</h2>
 									</header>
 									<div class="features">
 										<article>
@@ -185,7 +180,7 @@
 
 							<!-- Section -->
 							
-								<section>
+							<section>
 									<header class="major">
 										<h2>Contact Us</h2>
 									</header>

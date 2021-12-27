@@ -9,10 +9,17 @@
 
 		<style>
 
-		.img-fit {
+		img {
     		max-width: 100%;
     		max-height: 100%;
 			}
+
+		.img-fit{
+			max-width: 600px;
+    		max-height: 400px;
+		}
+		
+		
 
 		.centerit {
 			width: 100px;
@@ -30,7 +37,7 @@
 	
 
 </style>
-		<title>Judul</title>
+		<title>CV. Karya Graha Agung</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.css');?>" />
@@ -55,17 +62,20 @@
 							<!-- Content -->
 							<section>
 							
-							<?php foreach ($product as $row) { ?>	
-							<span class="image fit"><img src="<?= base_url('images/animasi_5.gif');?>" alt="" /></span>
-							<div>
-							<p style="font-size: 150%;font-family: helvetica;">
-							<strong>Name : </strong><?= $row->nama_barang;?><br>
+							<?php foreach ($product as $row) { ?>
+							
+							<span class="image fit left"><img class="img-fit" src="<?= base_url('uploads/'.$row->image);?>" alt="" /></span>
+							<h2><?= $row->deskripsi;?></h2><br>
+
+							
+							<p style="font-size: 150%;font-family: helvetica;">	
+							
 							<strong>Category : </strong><?= $row->nama_kategori;?><br>
 							<strong>Price : </strong><?="IDR ".number_format($row->harga,0,',','.'); ?><br>
 							<strong>Brand : </strong><?= $row->nama_merek;?><br>
 							<strong>Stock : </strong><?= $row->stok;?></p>
-							</div>
-									
+							
+							</p>		
 							<?php } ?>		
 									
 							</section>

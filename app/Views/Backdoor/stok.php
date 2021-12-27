@@ -29,7 +29,8 @@
 <div class="wrapper">
   
   <!-- Main Sidebar Container -->
- 
+  <?= $this->include('Backdoor/sidebar') ?>
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -80,7 +81,7 @@
               <td class="id_katalog" style="text-align: center;"><?php echo $row->id_katalog;?></td>
               <td class="nama_barang" style="text-align: center;"><?php echo $row->nama_barang; ?></td>
               <td class="status" style="text-align: center;"><?php echo $row->status; ?></td>
-              <td class="keterangan" style="text-align: center;"><?php echo $row->keterangan; ?></td>
+              <td class="keterangan" style="text-align: center;"><?php if(is_null($row->keterangan)) {echo "Stok Barang Masuk Sistem"; } else {echo $row->keterangan;} ?></td>
               <td class="createdAt" style="text-align: center;"><?php echo $row->createdAt; ?></td>
 
               <td style="text-align: center;">

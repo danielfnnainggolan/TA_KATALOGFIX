@@ -28,7 +28,7 @@
 <div class="wrapper">
   
   <!-- Main Sidebar Container -->
- 
+  <?= $this->include('Backdoor/sidebar') ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -81,7 +81,8 @@
               <td class="parent_kategori" style="text-align: center;"><?php if(!is_null($row->parent_kategori)) {echo $row->parent_kategori;} else echo "-"; ?></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
+              <?php if(is_null($row->id_kategori1) && is_null($row->parent_kategori1)) {} else { ?><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
+              <?php }?>
 
                 </td>
             </tr>

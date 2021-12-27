@@ -28,7 +28,7 @@ th.dpass, td.dpass {display: none;}
 <div class="wrapper">
 
   <!-- Main Sidebar Container -->
-  
+  <?= $this->include('Backdoor/sidebar') ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -65,7 +65,7 @@ th.dpass, td.dpass {display: none;}
               <th class="noExport" style="text-align: center;">ID Kategori</th>
               <th style="text-align: center;">Harga</th>
               <th style="text-align: center;">Stok</th>
-              <th style="text-align: center;">Gambar</th>
+              <th class="noExport" style="text-align: center;">Gambar</th>
               <th class="noExport" style="text-align: center;">Aksi</th>
 
             </tr>
@@ -85,7 +85,7 @@ th.dpass, td.dpass {display: none;}
               <td class="id_kategori" style="text-align: center;"><?php echo $row->id_kategori; ?></td>
               <td class="harga" style="text-align: center;"><?php echo "Rp. ".number_format($row->harga,0,',','.'); ?> </td>
               <td class="stok" style="text-align: center;"><?php echo $row->stok; ?></td>
-              <td style="text-align: center;"><a href="" data-bs-toggle="modal" data-bs-target="#detailModal"><img src="<?php echo base_url('uploads/'.$row->image);?>" style="width:100px;height:100px;"></a></td>
+              <td style="text-align: center;"><a href="" data-bs-toggle="modal" data-bs-target="#detailModal"><img class="image" alt="" src="<?php echo base_url('uploads/'.$row->image);?>" style="width:100px;height:100px;"></a></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
@@ -114,10 +114,11 @@ th.dpass, td.dpass {display: none;}
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Katalog'); ?>">
+        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Katalog'); ?> " enctype="multipart/form-data">
 
         <div class="form-group">
         <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
+        <input type="text" name="stok1"  class="form-control stok1" hidden >
         <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang">
         <label for="namaMerek">Merek</label>
         <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek">
@@ -140,7 +141,8 @@ th.dpass, td.dpass {display: none;}
           <?php }} ?>
         </select>
         <label for="harga">Harga</label><input type="text" name="harga" id="harga" class="form-control harga">
-        <label for="stok">Stok</label><input type="number" name="stok"  class="form-control stok">
+        <label for="harga">Stok</label><input type="number" name="stok"  class="form-control stok">
+      <label for="harga">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
       </div>
     </div>
       <div class="modal-footer">
@@ -152,18 +154,18 @@ th.dpass, td.dpass {display: none;}
   </div>
 </div>
 
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal fade " id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel"> Gambar</h5>
+      <h5 class="modal-title" id="exampleModalLabel"> Detail Gambar</h5>
       <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <img src="<?php echo base_url('uploads/img2.webp');?>">
-      <?php var_dump($katalog[0]);?>
+      <img src="" class="image_detail img-responsive center-block" style="height:auto;width:100%;text-align:center">
+      
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tutup</button>
@@ -359,13 +361,14 @@ $(function () {
     var _id_katalog = _row.find(".id_katalog").text();
     var _id_kategori= _row.find(".id_kategori").text();
     var _stok = _row.find(".stok").text();
-
+   
 
 
     $(this).find(".nama_barang").val(_nama_barang);
     AutoNumeric.getAutoNumericElement('#harga').set(_harga);
     $(this).find(".id_katalog").val(_id_katalog);
     $(this).find(".stok").val(_stok);
+    $(this).find(".stok1").val(_stok);
     $('#select2EditMerek').val(_id_merek);
     $('#select2EditMerek').trigger('change');
 
@@ -388,9 +391,14 @@ $('#deleteModal').on('show.bs.modal', function (e) {
 });
 
 $('#detailModal').on('show.bs.modal', function (e) {
-    
-
-
+  var _button = $(e.relatedTarget);
+  var _row = _button.parents("tr");
+    // console.log(_button, _button.parents("tr"));  
+  //var link = _row
+  var _link = _row.find(".image").attr("src");
+  $(this).find(".image_detail").attr("src", _link);
+ 
+  
 });
 
 
