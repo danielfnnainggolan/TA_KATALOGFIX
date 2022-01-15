@@ -103,7 +103,7 @@
 
         <div class="form-group">
         <input type="text" name="id_merek"  class="form-control id_merek" hidden >
-        <label for="namaMerek">Nama Merek</label><input type="text" name="nama_merek" class="form-control nama_merek " >
+        <label for="namaMerek">Nama Merek</label><input type="text" name="nama_merek" class="form-control nama_merek " required >
       </div>
     </div>
       <div class="modal-footer">
@@ -155,7 +155,7 @@
       <div class="form-group">
 
       <label for="namaMerek">Nama Merek</label>
-      <input type="text" name="nama_merek" class="form-control">
+      <input type="text" name="nama_merek" class="form-control" required>
       </div>
     </div>
     <div class="modal-footer">

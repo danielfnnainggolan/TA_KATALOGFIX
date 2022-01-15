@@ -31,7 +31,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Home</h1>
+            <h1>Account Settings</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -52,6 +52,12 @@
               <!-- form start -->
               <form class="form-horizontal" method="POST" action="<?php echo base_url('Backdoor/Account_Change'); ?>">
                 <div class="card-body">
+                  <?php if (session()->getFlashdata('change_password') !== NULL) : ?>
+                    <div class="alert <?php echo session()->getFlashdata('color'); ?> alert-dismissible fade show" role="alert">
+                    <?php echo session()->getFlashdata('change_password'); ?>
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                  <?php endif; ?>
                   <div class="form-group row">
                     <label for="username" class="col-sm-2 col-form-label">Username</label>
                     <div class="col-sm-10">
@@ -59,21 +65,21 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="oldPassword" class="col-sm-2 col-form-label">Old Password</label>
+                    <label for="oldPassword" class="col-sm-2 col-form-label">Password Lama</label>
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="Old Password">
+                      <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="Old Password" required>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="newPassword" class="col-sm-2 col-form-label">New Password</label>
+                    <label for="newPassword" class="col-sm-2 col-form-label">Password Baru</label>
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" >
+                      <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" required>
                     </div>
                   </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info">Sign in</button>
+                  <button type="submit" class="btn btn-info">Ubah Password</button>
                   <button type="submit" class="btn btn-default float-right">Cancel</button>
                 </div>
                 <!-- /.card-footer -->

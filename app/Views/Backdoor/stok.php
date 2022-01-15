@@ -115,17 +115,17 @@
         <form method="POST" action="<?php echo base_url('Backdoor/Edit_Stok'); ?>">
 
         <div class="form-group">
-        <input type="text" name="id_stok"  class="form-control id_stok" hidden >
+        <input type="text" name="id_stok"  class="form-control id_stok"  hidden>
         <label for="namaBarang">Nama Barang</label>
         <select id="select2EditStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
         <?php
-        foreach($stok as $row) {?>
-          <option value="<?php echo $row->id_katalog;?>"><?php echo $row->nama_barang;?>
+        foreach($katalog as $row) {?>
+          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
         <?php }
         ?>
       </select>
-      <label for="status">Status</label><input id="status" type="text" name="status"  class="form-control status" >
-      <label for="keterangan">Keterangan</label><input type="text" name="keterangan"  class="form-control keterangan" >
+      <label for="status">Status</label><input id="status" type="text" name="status"  class="form-control status" required>
+      <label for="keterangan">Keterangan</label><input type="text" name="keterangan"  class="form-control keterangan" required >
       </div>
     </div>
       <div class="modal-footer">
@@ -180,13 +180,13 @@
       <label for="namaBarang">Nama Barang</label>
       <select id="select2AddStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
         <?php
-        foreach($stok as $row) {?>
-          <option value="<?php echo $row->id_katalog;?>"><?php echo $row->nama_barang;?>
+        foreach($katalog as $row) {?>
+          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
         <?php }
         ?>
       </select>
-      <label for="status">Status Masuk (+) / Keluar (-) Barang</label><input type="text" name="status" id="status1" class="form-control status" placeholder="Cth : 50 atau -50">
-      <label for="keterangan">Keterangan</label><input type="text" name="keterangan" id="keterangan" class="form-control keterangan" placeholder="Cth: Barang Masuk / Keluar dari">
+      <label for="status">Status Masuk (+) / Keluar (-) Barang</label><input type="text" name="status" id="status1" class="form-control status" placeholder="Cth : 50 atau -50" required>
+      <label for="keterangan">Keterangan</label><input type="text" name="keterangan" id="keterangan" class="form-control keterangan" placeholder="Cth: Barang Masuk / Keluar dari" required>
       </div>
     </div>
     <div class="modal-footer">
@@ -252,7 +252,7 @@ $(function () {
                         {extend:'pdf',exportOptions: {columns: "thead th:not(.noExport)"}},
                         {text: 'Tambah Data Stok',action: function (e, node, config){$('#addModal').modal('show')}}
                                   ],
-                        "aoColumnDefs": [ { "sClass": "dpass", "aTargets": [ 1 ,2 ] } ]
+                        "aoColumnDefs": [ {  "sClass": "dpass", "aTargets": [ 1 ,2 ] } ]
                        
 
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -273,7 +273,7 @@ $(function () {
 
 
 
-    $('#editModal').on('show.bs.modal', function (e) {
+  $('#editModal').on('show.bs.modal', function (e) {
     var _button = $(e.relatedTarget);
     // console.log(_button, _button.parents("tr"));
     var _row = _button.parents("tr");
@@ -282,13 +282,13 @@ $(function () {
     var _status = _row.find(".status").text();
     var _keterangan = _row.find(".keterangan").text();
    
-
+    
     $(this).find(".id_stok").val(_id_stok);
     $('#select2EditStok').val(_id_katalog);
     $('#select2EditStok').trigger('change');
     $(this).find(".status").val(_status);
     $(this).find(".keterangan").val(_keterangan);
-    
+    console.log(_id_katalog);
     });
 
 

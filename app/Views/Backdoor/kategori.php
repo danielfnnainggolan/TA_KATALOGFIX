@@ -113,7 +113,7 @@
         <div class="form-group">
         <input type="text" name="id_kategori"  class="form-control id_kategori" hidden>
 
-        <label for="namaKategori">Nama Kategori</label><input type="text" name="nama_kategori" class="form-control nama_kategori ">
+        <label for="namaKategori">Nama Kategori</label><input type="text" name="nama_kategori" class="form-control nama_kategori " required>
         <label for="namaKategori">Parent Kategori</label>
         <select id="select2EditKategori" class="form-control select2 id_kategori1" style="width:100%" name="parent_kategori">
         <option value="<?php echo "-";?>"> - (Kategori Utama)
@@ -174,9 +174,9 @@
       <div class="form-group">
 
       <label for="namaKategori">Nama Kategori</label>
-      <input type="text" name="nama_kategori" class="form-control">
+      <input type="text" name="nama_kategori" class="form-control" required>
       <label for="parentKategori">Parent Kategori</label>
-      <select id="select2AddKategori" class="form-control select2 parent_kategori" style="width:100%" name="parent_kategori">
+      <select id="select2AddKategori" class="form-control select2 parent_kategori" style="width:100%" name="parent_kategori" required>
         <option value="<?php echo NULL;?>"> - (Kategori Utama)
         <?php foreach($kategori as $row) { ?>
             <?php if(is_null($row->id_kategori1) || is_null($row->parent_kategori1)) { ?>

@@ -109,7 +109,7 @@
         <div class="form-group">
         <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
         <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang " readonly>
-        <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi"></textarea>
+        <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
       </div>
     </div>
       <div class="modal-footer">
@@ -159,24 +159,26 @@
     <div class="modal-body">
       <form method="POST" action="<?php echo base_url('Backdoor/Add_Deskripsi'); ?>">
       <div class="form-group">
-
+      <?php $checker=1;?>
       <label for="namaBarang">Nama Barang</label>
       <select id="select2EditKatalog" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
         <?php
+        
         foreach($katalog as $row) {
-          if(is_null($row->deskripsi) || empty($row->deskripsi)) { ?>
+          if(!isset($row->deskripsi)) { ?>
           <option value="<?php echo $row->id_katalog;?>"><?php echo $row->nama_barang;?>
-        <?php }}
+        <?php $checker=$row->deskripsi;}}
         ?>
       </select>
-      <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi"></textarea>
+      <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-primary">Save changes</button>
+      <button type="submit" class="btn btn-primary" <?php if($checker === NULL) {echo 'Yay';} else {echo 'disabled';}?>>Save changes</button>
     </form>
     </div>
+            
   </div>
 </div>
 </div>

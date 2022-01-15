@@ -25,7 +25,12 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Isi informasi di bawah untuk masuk</p>
 
-
+      <?php if (session()->getFlashdata('login_message') !== NULL) : ?>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php echo session()->getFlashdata('login_message'); ?>
+          <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+      <?php endif; ?>
         <form method="POST" action="<?php echo base_url('Backdoor/Login'); ?>">
 
 

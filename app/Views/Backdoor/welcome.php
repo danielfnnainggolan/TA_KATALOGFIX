@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Blank Page</title>
+  <title>KGA | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -124,6 +124,22 @@
                 <i class="fas fa-book"></i>
               </div>
               <a href="<?= base_url('Backdoor/Stok');?>" class="small-box-footer">
+                Info Selanjutnya <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>Account Settings</h3>
+                <p>Mengubah Password Akun</p>
+                
+              </div>
+              <div class="icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <a href="<?= base_url('Backdoor/Account');?>" class="small-box-footer">
                 Info Selanjutnya <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>

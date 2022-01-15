@@ -57,12 +57,12 @@ th.dpass, td.dpass {display: none;}
             <thead>
             <tr>
               <th style="text-align: center;">No.</th>
-              <th style="text-align: center;">id_katalog</th>
+              <th style="text-align: center;" hidden>id_katalog</th>
               <th style="text-align: center;">Nama Barang</th>
-              <th class="noExport" style="text-align: center;">ID Merek</th>
+              <th class="noExport" style="text-align: center;" hidden>ID Merek</th>
               <th style="text-align: center;">Merek</th>
               <th style="text-align: center;">Kategori</th>
-              <th class="noExport" style="text-align: center;">ID Kategori</th>
+              <th class="noExport" style="text-align: center;" hidden>ID Kategori</th>
               <th style="text-align: center;">Harga</th>
               <th style="text-align: center;">Stok</th>
               <th class="noExport" style="text-align: center;">Gambar</th>
@@ -119,9 +119,9 @@ th.dpass, td.dpass {display: none;}
         <div class="form-group">
         <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
         <input type="text" name="stok1"  class="form-control stok1" hidden >
-        <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang">
+        <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang" required>
         <label for="namaMerek">Merek</label>
-        <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek">
+        <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek" >
           <?php
           foreach($merek as $row) { ?>
             <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?>
@@ -140,8 +140,8 @@ th.dpass, td.dpass {display: none;}
             <?php }} ?>
           <?php }} ?>
         </select>
-        <label for="harga">Harga</label><input type="text" name="harga" id="harga" class="form-control harga">
-        <label for="harga">Stok</label><input type="number" name="stok"  class="form-control stok">
+        <label for="harga">Harga</label><input type="text" name="harga" id="harga" class="form-control harga" required>
+        <label for="harga">Stok</label><input id="stok1" type="text" name="stok"  class="form-control stok" required>
       <label for="harga">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
       </div>
     </div>
@@ -236,8 +236,8 @@ th.dpass, td.dpass {display: none;}
           <?php }} ?>
         <?php }} ?>
       </select>
-      <label for="harga">Stok</label><input type="number" name="stok"  class="form-control">
-      <label for="harga">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
+      <label for="stok">Stok</label><input type="text" id="stok" name="stok"  class="form-control" required>
+      <label for="upload">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg" required>
       </div>
     </div>
     <div class="modal-footer">
@@ -303,7 +303,7 @@ $(function () {
                         {extend:'pdf',exportOptions: {columns: "thead th:not(.noExport)"}},
                         {text: 'Tambah Barang',action: function (e, node, config){$('#addModal').modal('show')}}
                                   ],
-                        "aoColumnDefs": [ { "sClass": "dpass", "aTargets": [ 1,3,6 ] } ]
+                        "aoColumnDefs": [ { "sClass": "dpass", "aTargets": [ 1,3,6 ]} ]
 
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
@@ -339,6 +339,7 @@ $(function () {
       decimalCharacter: ",",
       digitGroupSeparator: ".",
       formatOnPageLoad: false,
+      minimumValue: 0
   });
 
   new AutoNumeric('#harga_add', {
@@ -347,6 +348,7 @@ $(function () {
       decimalCharacter: ",",
       digitGroupSeparator: ".",
       formatOnPageLoad: false,
+      minimumValue: 0
   });
 
 
@@ -402,7 +404,28 @@ $('#detailModal').on('show.bs.modal', function (e) {
 });
 
 
+function setInputFilter(textbox, inputFilter) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+    textbox.addEventListener(event, function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
 
+setInputFilter(document.getElementById("stok"), function(value) {
+  return /^-?\d*$/.test(value); });
+
+setInputFilter(document.getElementById("stok1"), function(value) {
+  return /^-?\d*$/.test(value); });
 
 </script>
 

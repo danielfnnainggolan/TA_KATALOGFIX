@@ -37,25 +37,36 @@ class Backdoor extends BaseController
 			$session = session();
 			$username = $this->request->getPost('username');
 			$check = $this->user->where('username', $username)->first();
-			$pass_check = $check['password'];
-			$password = $this->request->getPost('password');
-			if(password_verify($password, $pass_check)) {
-				$ses_data = [
-                    'username'       => $check['username'],
-					'id_admin'		=> $check['id_admin'],
-                    'logged_in'     => TRUE
-                ];
-				$session->set($ses_data);
-				return redirect()->to('Backdoor/welcome');
+			if(!is_null($check)) {
+				$pass_check = $check['password'];
+				$password = $this->request->getPost('password');
+				if(password_verify($password, $pass_check)) {
+					$ses_data = [
+						'username'       => $check['username'],
+						'id_admin'		=> $check['id_admin'],
+						'logged_in'     => TRUE
+					];
+					$session->set($ses_data);
+					return redirect()->to('Backdoor/welcome');
+				}
+				else {
+					$session->setFlashdata('login_message', 'Username atau Password salah');
+					return redirect()->to('Backdoor/');
+				}
 			}
+
 			else {
-				echo "FAILED";
+				$session->setFlashdata('login_message', 'Username atau Password salah');
+				return redirect()->to('Backdoor/');
 			}
+			
+			
 	}
 
 
 	public function Logout()
     {
+	
       $session = session();
       $session->destroy();
       return redirect()->to('Home/index');
@@ -83,39 +94,37 @@ class Backdoor extends BaseController
 
 	public function Edit_Katalog()
 			{
-				$id_katalog = $this->request->getPost('id_katalog');
-				$data = [
+				if(ctype_digit($this->request->getPost('stok')) && $this->request->getPost('stok') !== $this->request->getPost('stok1')) {	
+					$id_katalog = $this->request->getPost('id_katalog');
+					$data = [
     				'nama_barang' => $this->request->getPost('nama_barang'),
 						'id_merek' => $this->request->getPost('id_merek'),
 						'harga' => (int)preg_replace('/[^\d]/', '', $this->request->getPost('harga')),
 						'id_kategori' => $this->request->getPost('id_kategori'),
 									];
-
-				$this->katalog->update($id_katalog, $data);
-				if($this->request->getPost('stok') >= 0) {					
-				$data = [
-					'id_katalog' => $id_katalog,
-					'status' => (int) $this->request->getPost('stok') - $this->request->getPost('stok1'),
-					'keterangan' => "Pembaruan Stok dari Sistem"
-				];		
-
-				$this->stok->insert($data);
-				}
-				$file = $this->request->getFile('gambar_katalog');
-				$validation = $this->validate([
-					'gambar_katalog' => 'uploaded[gambar_katalog] |is_image[gambar_katalog]',
-				]);		
-
-				if($validation) {
-					$file->move('uploads', $this->request->getPost('nama_barang').'.jpg');
-					$path = $file->getName();
+					$this->katalog->update($id_katalog, $data);				
 					$data = [
-						'image' => $path,
-								];
-					$this->katalog->update($id_katalog, $data);
-				}
+						'id_katalog' => $id_katalog,
+						'status' => (int) $this->request->getPost('stok') - $this->request->getPost('stok1'),
+						'keterangan' => "Pembaruan Stok dari Sistem"
+							];		
 
+					$this->stok->insert($data);
+					$file = $this->request->getFile('gambar_katalog');
+					$validation = $this->validate([
+					'gambar_katalog' => 'uploaded[gambar_katalog] |is_image[gambar_katalog]',
+												]);		
+
+					if($validation) {
+						$file->move('uploads', $this->request->getPost('nama_barang').'.jpg');
+						$path = $file->getName();
+						$data = [
+							'image' => $path,
+								];
+						$this->katalog->update($id_katalog, $data);
+					}
 				
+				}
 				return redirect()->to('Backdoor/Katalog');
 
 			}
@@ -146,15 +155,20 @@ class Backdoor extends BaseController
 								];
 	
 							
-					$this->katalog->insert($data);
-					$id_katalog = $this->katalog->selectMax('id_katalog')->first();
+					
+					
+					if(ctype_digit($this->request->getPost('stok'))) {
+						$this->katalog->insert($data);
+						$id_katalog = $this->katalog->selectMax('id_katalog')->first();
 				
-					$data = [
+						$data = [
 						'id_katalog' => $id_katalog['id_katalog'],
-						'status' => (int)$this->request->getPost('stok'),
-				];		
+						'status' => (int)$this->request->getPost('stok1'),
+								];		
 				
-				$this->stok->insert($data);
+						$this->stok->insert($data);
+					}
+					
 				}
 				
 				
@@ -166,6 +180,9 @@ class Backdoor extends BaseController
 				$model = new CustomModel;
 				$data['katalog'] = $model->getDeskripsi();
 				echo view('Backdoor/deskripsi', $data);
+				
+
+
 				
 			}
 
@@ -237,7 +254,10 @@ class Backdoor extends BaseController
 			{
 				$model = new CustomModel;
 				$data['stok'] = $model->getStok();
+				$data['katalog'] = $this->katalog->findAll();
 				echo view('Backdoor/Stok', $data);
+
+				
 				
 			}
 
@@ -260,6 +280,7 @@ class Backdoor extends BaseController
 
 				 $this->stok->update($id, $data);
 				 return redirect()->to('Backdoor/Stok');
+
 			}
 
 	public function Delete_Stok()
@@ -272,15 +293,16 @@ class Backdoor extends BaseController
 
 	public function Add_Stok()
 			{
-				
-				$data = [
+				if(filter_var($this->request->getPost('status'), FILTER_VALIDATE_INT)) {
+					$data = [
 						'id_katalog' => $this->request->getPost('id_katalog'), 
 						'status' => $this->request->getPost('status'),
 						'keterangan' => $this->request->getPost('keterangan'),
 								 ];
 
-				$this->stok->insert($data);
-
+					$this->stok->insert($data);
+				}
+								 
 				return redirect()->to('Backdoor/Stok');
 			}
 
@@ -368,6 +390,7 @@ class Backdoor extends BaseController
 
 	public function Account_Change()
 	  {
+		$session = session();
 		$username = $this->request->getPost('username');
 		$oldPassword = $this->request->getPost('oldPassword');
 		$check = $this->user->where('username', $username)->first();
@@ -377,14 +400,19 @@ class Backdoor extends BaseController
 				'password' => password_hash($this->request->getPost('newPassword'), PASSWORD_DEFAULT),
 							];
 			$this->user->update($this->user->find(session()->get('id_admin')), $data);
-			return redirect()->to('Backdoor/welcome');
+			$session->setFlashdata('change_password', 'Password berhasil diubah');
+			$session->setFlashdata('color', 'alert-success');
+			return redirect()->to('Backdoor/Account');
 		}
 		else {
+			
+			$session->setFlashdata('change_password', 'Password lama salah');
+			$session->setFlashdata('color', 'alert-danger');
 			return redirect()->to('Backdoor/Account');
 		}
 	  }
 			
-
+	 
 
 
 }

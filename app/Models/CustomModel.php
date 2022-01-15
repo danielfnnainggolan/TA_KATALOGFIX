@@ -68,7 +68,7 @@ class CustomModel extends Model
     $builder->join('merek', 'merek.id_merek = katalog.id_merek', 'left');
     $builder->join('kategori', 'kategori.id_kategori = katalog.id_kategori', 'left');
     $builder->join('stok', 'stok.id_katalog = katalog.id_katalog', 'left');
-    $builder->orLike($array);
+    $builder->orLike($array, 'before');
     
     $builder->groupBy('stok.id_katalog');
     $query = $builder->get()->getResult();

@@ -19,6 +19,12 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
+              <a href="<?= base_url('Backdoor/Welcome');?>" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -27,6 +33,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
               <li class="nav-item">
                 <a href="<?= base_url('Backdoor/Katalog');?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -64,12 +71,12 @@
                 <p>Account Settings</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?= base_url('Backdoor/History');?>" class="nav-link">
+            <!-- <li class="nav-item">
+              <a href="= base_url('Backdoor/History');?>" class="nav-link">
                 <i class="nav-icon fas fa-history"></i>
                 <p>Stock History</p>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a href="<?= base_url('Backdoor/Logout');?>" class="nav-link">
                 <i class="far fa-user nav-icon"></i>
