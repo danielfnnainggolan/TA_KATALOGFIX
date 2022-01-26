@@ -44,7 +44,7 @@
 
     <!-- Main content -->
     <section class="content">
-    <div class="card card-info">
+    <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Account Settings</h3>
               </div>
@@ -79,8 +79,8 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info">Ubah Password</button>
-                  <button type="submit" class="btn btn-default float-right">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Ubah Password</button>
+                  
                 </div>
                 <!-- /.card-footer -->
               </form>

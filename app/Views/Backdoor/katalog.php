@@ -114,36 +114,49 @@ th.dpass, td.dpass {display: none;}
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Katalog'); ?> " enctype="multipart/form-data">
+        <form method="POST" id="editKatalog" action="<?php echo base_url('Backdoor/Edit_Katalog'); ?> " enctype="multipart/form-data">
 
-        <div class="form-group">
+       
         <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
         <input type="text" name="stok1"  class="form-control stok1" hidden >
-        <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang" required>
-        <label for="namaMerek">Merek</label>
-        <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek" >
-          <?php
-          foreach($merek as $row) { ?>
-            <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?>
-
-
-          <?php }
-          ?>
-        </select>
-        <label for="namaKategori">Kategori</label>
-        <select id="select2EditKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
-          <?php foreach($kategori as $row) { ?>
-            <?php if(!is_null($row['parent_kategori'])) { ?>
-              <?php foreach($kategori as $row1) { ?>
+        
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <input type="text" name="nama_barang" class="form-control nama_barang" required>
+        </div>
+        <div class="form-group">
+          <label for="namaMerek">Merek</label>
+          <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek" >
+            <?php foreach($merek as $row) { ?>
+              <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?>
+            <?php } ?>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="namaKategori">Kategori</label>
+          <select id="select2EditKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
+            <?php foreach($kategori as $row) { ?>
+              <?php if(!is_null($row['parent_kategori'])) { ?>
+                <?php foreach($kategori as $row1) { ?>
                   <?php if($row1['parent_kategori'] == $row['id_kategori']) { ?>
-              <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?>
-            <?php }} ?>
-          <?php }} ?>
-        </select>
-        <label for="harga">Harga</label><input type="text" name="harga" id="harga" class="form-control harga" required>
-        <label for="harga">Stok</label><input id="stok1" type="text" name="stok"  class="form-control stok" required>
-      <label for="harga">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
-      </div>
+                    <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?>
+                <?php }} ?>
+              <?php }} ?>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="harga">Harga</label>
+          <input type="text" name="harga" id="harga" class="form-control harga" required>
+        </div>
+        <div class="form-group">
+          <label for="harga">Stok</label>
+          <input id="stok1" type="text" name="stok"  class="form-control stok" required>
+        </div>
+        <div class="form-group">
+          <label for="harga">Upload Gambar </label>
+          <input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
+        
+        </div>
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -211,33 +224,45 @@ th.dpass, td.dpass {display: none;}
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Katalog'); ?>" enctype="multipart/form-data">
+      <form method="POST" id="addKatalog" action="<?php echo base_url('Backdoor/Add_Katalog'); ?>" enctype="multipart/form-data">
       <div class="form-group">
-
-      <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control" required>
-      <label for="harga">Harga</label><input type="text" name="harga" id="harga_add" class="form-control" required>
-      <label for="merek">Merek</label>
-      <select id="select2AddMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek">
-        <?php
-        foreach($merek as $row) { ?>
-          <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?>
-
-
-        <?php }
+        <label for="namaBarang">Nama Barang</label>
+        <input type="text" name="nama_barang" class="form-control" required placeholder="Silahkan mengisi nama barang">
+      </div>
+      <div class="form-group">              
+        <label for="harga">Harga</label>
+        <input type="text" name="harga" id="harga_add" class="form-control" required placeholder="Silahkan mengisi harga barang">
+      </div>
+      <div class="form-group">
+        <label for="merek">Merek</label>
+        <select id="select2AddMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek">
+          <option></option>
+          <?php foreach($merek as $row) { ?>
+            <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?></option>
+          <?php }
         ?>
-      </select>
-      <label for="kategori">Kategori</label>
-      <select id="select2AddKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
-        <?php foreach($kategori as $row) { ?>
-          <?php if(!is_null($row['parent_kategori'])) { ?>
-            <?php foreach($kategori as $row1) { ?>
-                <?php if($row1['parent_kategori'] == $row['id_kategori']) { ?>
-            <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?>
-          <?php }} ?>
-        <?php }} ?>
-      </select>
-      <label for="stok">Stok</label><input type="text" id="stok" name="stok"  class="form-control" required>
-      <label for="upload">Upload Gambar </label><input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg" required>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="kategori">Kategori</label>
+        <select id="select2AddKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
+          <option></option>
+          <?php foreach($kategori as $row) { ?>
+            <?php if(!is_null($row['parent_kategori'])) { ?>
+              <?php foreach($kategori as $row1) { ?>
+                  <?php if($row1['parent_kategori'] == $row['id_kategori']) { ?>
+                    <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?></option>
+                  <?php }} ?>
+              <?php }} ?>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="stok">Stok</label>
+        <input type="text" id="stok" name="stok"  class="form-control" required placeholder="Silahkan mengisi stok barang">
+      </div>
+      <div class="form-group">
+        <label for="upload">Upload Gambar </label>
+        <input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg" required placeholder="Silahkan mengunggah file barang">
       </div>
     </div>
     <div class="modal-footer">
@@ -273,7 +298,9 @@ th.dpass, td.dpass {display: none;}
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
 <!-- Select 2  -->
 <script src="<?php echo base_url('assets/select2/js/select2.full.min.js');?>"></script>
-
+<!-- jquery-validation -->
+<script src="<?php echo base_url('assets/js/jquery-validation/jquery.validate.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-validation/additional-methods.min.js');?>"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -316,6 +343,7 @@ $(function () {
 
   $('#select2EditMerek').select2({
           dropdownParent: $('#editModal'),
+          
       });
 
   $('#select2EditKategori').select2({
@@ -324,13 +352,15 @@ $(function () {
 
   $('#select2AddMerek').select2({
           dropdownParent: $('#addModal'),
+          placeholder: "Silahkan memilih merek barang"
       });
 
   $('#select2AddKategori').select2({
           dropdownParent: $('#addModal'),
+          placeholder: "Silahkan memilih kategori barang"
       });
 
-
+ 
 
 
   new AutoNumeric('#harga', {
@@ -376,6 +406,7 @@ $(function () {
 
     $('#select2EditKategori').val(_id_kategori);
     $('#select2EditKategori').trigger('change');
+    
 
     });
 
@@ -403,6 +434,106 @@ $('#detailModal').on('show.bs.modal', function (e) {
   
 });
 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#addKatalog').validate({
+    rules: {
+      nama_barang: {
+        required: true,
+      },
+      harga: {
+        required: true,
+
+      },
+      id_merek: {
+        required: true
+      },
+      id_kategori: {
+        required: true
+      },
+      stok: {
+        required: true,
+        number: true,
+        min: 1
+      },
+      gambar_katalog: {
+        required: true,
+        accept: "image/*" 
+      },
+    },
+    messages: {
+      gambar_katalog: {
+        accept:"Incorrect file type. Please only upload image files"
+      } 
+      
+      
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#editKatalog').validate({
+    rules: {
+      nama_barang: {
+        required: true,
+      },
+      harga: {
+        required: true,
+
+      },
+      id_merek: {
+        required: true
+      },
+      id_kategori: {
+        required: true
+      },
+      stok: {
+        required: true,
+        number: true,
+        min: 0
+      },
+      gambar_katalog: {
+        accept: "image/*" 
+      }
+    },
+    messages: {
+      gambar_katalog: "Incorrect file type. Please only upload image files",
+
+      
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
 
 function setInputFilter(textbox, inputFilter) {
   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
@@ -420,6 +551,8 @@ function setInputFilter(textbox, inputFilter) {
     });
   });
 }
+
+
 
 setInputFilter(document.getElementById("stok"), function(value) {
   return /^-?\d*$/.test(value); });

@@ -112,20 +112,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Stok'); ?>">
-
-        <div class="form-group">
+        <form method="POST" id="editStok" action="<?php echo base_url('Backdoor/Edit_Stok'); ?>">
         <input type="text" name="id_stok"  class="form-control id_stok"  hidden>
-        <label for="namaBarang">Nama Barang</label>
-        <select id="select2EditStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
-        <?php
-        foreach($katalog as $row) {?>
-          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
-        <?php }
-        ?>
-      </select>
-      <label for="status">Status</label><input id="status" type="text" name="status"  class="form-control status" required>
-      <label for="keterangan">Keterangan</label><input type="text" name="keterangan"  class="form-control keterangan" required >
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <select id="select2EditStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+          <?php foreach($katalog as $row) {?>
+            <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
+          <?php } ?>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <input id="status" type="text" name="status"  class="form-control status" required>
+        </div>
+        <div class="form-group">
+          <label for="keterangan">Keterangan</label>
+          <input type="text" name="keterangan"  class="form-control keterangan" required >
+        
       </div>
     </div>
       <div class="modal-footer">
@@ -174,19 +178,24 @@
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Stok'); ?>">
+      <form method="POST" id="addStok" action="<?php echo base_url('Backdoor/Add_Stok'); ?>">
       <div class="form-group">
-
-      <label for="namaBarang">Nama Barang</label>
-      <select id="select2AddStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
-        <?php
-        foreach($katalog as $row) {?>
-          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
+        <label for="namaBarang">Nama Barang</label>
+        <select id="select2AddStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+        <option></option>
+        <?php foreach($katalog as $row) {?>
+          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?></option>
         <?php }
         ?>
-      </select>
-      <label for="status">Status Masuk (+) / Keluar (-) Barang</label><input type="text" name="status" id="status1" class="form-control status" placeholder="Cth : 50 atau -50" required>
-      <label for="keterangan">Keterangan</label><input type="text" name="keterangan" id="keterangan" class="form-control keterangan" placeholder="Cth: Barang Masuk / Keluar dari" required>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="status">Status Masuk (+) / Keluar (-) Barang</label>
+        <input type="text" name="status" id="status1" class="form-control status" placeholder="Cth : 50 atau -50" required>
+      </div>
+      <div class="form-group">
+        <label for="keterangan">Keterangan</label>
+        <input type="text" name="keterangan" id="keterangan" class="form-control keterangan" placeholder="Cth: Barang Masuk / Keluar dari" required>
       </div>
     </div>
     <div class="modal-footer">
@@ -222,7 +231,9 @@
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
 <!-- Select 2  -->
 <script src="<?php echo base_url('assets/select2/js/select2.full.min.js');?>"></script>
-
+<!-- jquery-validation -->
+<script src="<?php echo base_url('assets/js/jquery-validation/jquery.validate.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-validation/additional-methods.min.js');?>"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -266,12 +277,13 @@ $(function () {
 
   $('#select2AddStok').select2({
           dropdownParent: $('#addModal'),
+          placeholder: "Silahkan memilih nama barang"
       });
   $('#select2EditStok').select2({
           dropdownParent: $('#editModal'),
       });
 
-
+  
 
   $('#editModal').on('show.bs.modal', function (e) {
     var _button = $(e.relatedTarget);
@@ -305,8 +317,76 @@ $('#deleteModal').on('show.bs.modal', function (e) {
  
   $(this).find(".id_stok_delete").val(_id_stok_delete);
 
+});
 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#addStok').validate({
+    rules: {
+      id_katalog: {
+        required: true,
+      },
+      status: {
+        required: true,
+        number:true,
 
+      },
+      keterangan: {
+        required: true
+      },
+    },
+
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#editStok').validate({
+    rules: {
+      id_katalog: {
+        required: true,
+      },
+      status: {
+        required: true,
+        number:true,
+
+      },
+      keterangan: {
+        required: true
+      },
+    },
+    
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
 });
 
 

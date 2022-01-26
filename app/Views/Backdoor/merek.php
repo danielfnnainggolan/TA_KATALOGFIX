@@ -99,7 +99,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Merek'); ?>">
+        <form id="editMerek" method="POST" action="<?php echo base_url('Backdoor/Edit_Merek'); ?>">
 
         <div class="form-group">
         <input type="text" name="id_merek"  class="form-control id_merek" hidden >
@@ -151,7 +151,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Merek'); ?>">
+      <form id="addMerek" method="POST" action="<?php echo base_url('Backdoor/Add_Merek'); ?>">
       <div class="form-group">
 
       <label for="namaMerek">Nama Merek</label>
@@ -189,8 +189,9 @@
 <script src="<?php echo base_url('assets/js/bootstrap.bundle.min.js');?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
-
-
+<!-- jquery-validation -->
+<script src="<?php echo base_url('assets/js/jquery-validation/jquery.validate.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-validation/additional-methods.min.js');?>"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -232,7 +233,59 @@ $(function () {
 
 
 
+  $(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#addMerek').validate({
+    rules: {
+      nama_merek: {
+        required: true,
+      },
+    },
+    
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#editMerek').validate({
+    rules: {
+      nama_merek: {
+        required: true,
+      },
+    },
+    
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+    });
+  });
 
 
   $('#editModal').on('show.bs.modal', function (e) {

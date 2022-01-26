@@ -94,24 +94,16 @@ class Backdoor extends BaseController
 
 	public function Edit_Katalog()
 			{
-				if(ctype_digit($this->request->getPost('stok')) && $this->request->getPost('stok') !== $this->request->getPost('stok1')) {	
-					$id_katalog = $this->request->getPost('id_katalog');
+				$id_katalog = $this->request->getPost('id_katalog');
 					$data = [
     				'nama_barang' => $this->request->getPost('nama_barang'),
 						'id_merek' => $this->request->getPost('id_merek'),
 						'harga' => (int)preg_replace('/[^\d]/', '', $this->request->getPost('harga')),
 						'id_kategori' => $this->request->getPost('id_kategori'),
 									];
-					$this->katalog->update($id_katalog, $data);				
-					$data = [
-						'id_katalog' => $id_katalog,
-						'status' => (int) $this->request->getPost('stok') - $this->request->getPost('stok1'),
-						'keterangan' => "Pembaruan Stok dari Sistem"
-							];		
-
-					$this->stok->insert($data);
-					$file = $this->request->getFile('gambar_katalog');
-					$validation = $this->validate([
+				$this->katalog->update($id_katalog, $data);		
+				$file = $this->request->getFile('gambar_katalog');
+				$validation = $this->validate([
 					'gambar_katalog' => 'uploaded[gambar_katalog] |is_image[gambar_katalog]',
 												]);		
 
@@ -123,6 +115,15 @@ class Backdoor extends BaseController
 								];
 						$this->katalog->update($id_katalog, $data);
 					}
+				if(ctype_digit($this->request->getPost('stok')) && $this->request->getPost('stok') !== $this->request->getPost('stok1')) {	
+					$data = [
+						'id_katalog' => $id_katalog,
+						'status' => (int) $this->request->getPost('stok') - $this->request->getPost('stok1'),
+						'keterangan' => "Pembaruan Stok dari Sistem"
+							];		
+
+					$this->stok->insert($data);
+					
 				
 				}
 				return redirect()->to('Backdoor/Katalog');
@@ -163,7 +164,7 @@ class Backdoor extends BaseController
 				
 						$data = [
 						'id_katalog' => $id_katalog['id_katalog'],
-						'status' => (int)$this->request->getPost('stok1'),
+						'status' => (int)$this->request->getPost('stok'),
 								];		
 				
 						$this->stok->insert($data);

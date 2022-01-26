@@ -108,21 +108,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Kategori'); ?>">
+        <form method="POST" id="editKategori" action="<?php echo base_url('Backdoor/Edit_Kategori'); ?>">
 
-        <div class="form-group">
+        
         <input type="text" name="id_kategori"  class="form-control id_kategori" hidden>
-
-        <label for="namaKategori">Nama Kategori</label><input type="text" name="nama_kategori" class="form-control nama_kategori " required>
-        <label for="namaKategori">Parent Kategori</label>
-        <select id="select2EditKategori" class="form-control select2 id_kategori1" style="width:100%" name="parent_kategori">
-        <option value="<?php echo "-";?>"> - (Kategori Utama)
-        <?php foreach($kategori as $row) { ?>
-            <?php if(is_null($row->id_kategori1) || is_null($row->parent_kategori1)) { ?>
-              
-              <option value="<?php echo $row->id_kategori;?>"><?php echo $row->nama_kategori;?>
+        <div class="form-group">
+          <label for="namaKategori">Nama Kategori</label>
+          <input type="text" name="nama_kategori" class="form-control nama_kategori " required>
+        </div>
+        <div class="form-group">
+          <label for="namaKategori">Parent Kategori</label>
+          <select id="select2EditKategori" class="form-control select2 id_kategori1" style="width:100%" name="parent_kategori">
+            <option value="<?php echo "-";?>"> - (Menjadi Kategori Utama) 
+            <?php foreach($kategori as $row) { ?>
+              <?php if(is_null($row->id_kategori1) || is_null($row->parent_kategori1)) { ?>
+                <option value="<?php echo $row->id_kategori;?>"><?php echo $row->nama_kategori." (Menjadi "; if(is_null($row->id_kategori1) && is_null($row->parent_kategori1)) 
+                  {echo "Sub Kategori 1";} elseif(is_null($row->parent_kategori1)) {echo "Sub Kategori 2";} echo ")"; ?>  
             <?php }} ?>
-      </select>
+          </select>
       </div>
     </div>
       <div class="modal-footer">
@@ -170,20 +173,24 @@
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Kategori'); ?>">
+      <form id="addKategori" method="POST" action="<?php echo base_url('Backdoor/Add_Kategori'); ?>">
       <div class="form-group">
-
-      <label for="namaKategori">Nama Kategori</label>
-      <input type="text" name="nama_kategori" class="form-control" required>
-      <label for="parentKategori">Parent Kategori</label>
-      <select id="select2AddKategori" class="form-control select2 parent_kategori" style="width:100%" name="parent_kategori" required>
-        <option value="<?php echo NULL;?>"> - (Kategori Utama)
-        <?php foreach($kategori as $row) { ?>
+        <label for="namaKategori">Nama Kategori</label>
+        <input type="text" name="nama_kategori" class="form-control" required placeholder="Silahkan mengisi nama kategori barang">
+      </div>
+      <div class="form-group">
+        <label for="parentKategori">Parent Kategori</label>
+        <select id="select2AddKategori" class="form-control select2 parent_kategori" style="width:100%" name="parent_kategori" required>
+          <option></option>
+          <option value="<?php echo "-";?>"> - (Menjadi Kategori Utama) </option>
+          
+          <?php foreach($kategori as $row) { ?>
             <?php if(is_null($row->id_kategori1) || is_null($row->parent_kategori1)) { ?>
               
-              <option value="<?php echo $row->id_kategori;?>"><?php echo $row->nama_kategori;?>
+              <option value="<?php echo $row->id_kategori;?>"><?php echo $row->nama_kategori." (Menjadi "; if(is_null($row->id_kategori1) && is_null($row->parent_kategori1)) 
+                  {echo "Sub Kategori 1";} elseif(is_null($row->parent_kategori1)) {echo "Sub Kategori 2";} echo ")"; ?>
             <?php }} ?>
-      </select>
+        </select>
       </div>
     </div>
     <div class="modal-footer">
@@ -219,7 +226,9 @@
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
 <!-- Select 2  -->
 <script src="<?php echo base_url('assets/select2/js/select2.full.min.js');?>"></script>
-
+<!-- jquery-validation -->
+<script src="<?php echo base_url('assets/js/jquery-validation/jquery.validate.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-validation/additional-methods.min.js');?>"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -255,10 +264,12 @@ $(function () {
 
   $('#select2AddKategori').select2({
         dropdownParent: $('#addModal'),
+        placeholder: "Silahkan memilih parent kategori (kategori induk) barang"
     });
 
   $('#select2EditKategori').select2({
         dropdownParent: $('#editModal'),
+        
     });  
 
 
@@ -276,8 +287,64 @@ $(function () {
     $(this).find(".id_kategori").val(_id_kategori);
     });
 
+    $(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#addKategori').validate({
+    rules: {
+      nama_kategori: {
+        required: true,
+      },
+      parent_kategori: {
+        required: true,
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
 
 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#editKategori').validate({
+    rules: {
+      nama_kategori: {
+        required: true,
+      },
+      parent_kategori: {
+        required: true,
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
 $('#deleteModal').on('show.bs.modal', function (e) {
 
   var _button = $(e.relatedTarget);

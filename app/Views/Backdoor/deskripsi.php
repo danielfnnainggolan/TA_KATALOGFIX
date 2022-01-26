@@ -104,12 +104,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="<?php echo base_url('Backdoor/Edit_Deskripsi'); ?>">
-
-        <div class="form-group">
+        <form method="POST" id="editDeskripsi" action="<?php echo base_url('Backdoor/Edit_Deskripsi'); ?>">
         <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
-        <label for="namaBarang">Nama Barang</label><input type="text" name="nama_barang" class="form-control nama_barang " readonly>
-        <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <input type="text" name="nama_barang" class="form-control nama_barang " readonly>
+        </div>
+        <div class="form-group">
+          <label for="deskripsi">Deskripsi Barang</label>
+          <textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
+        
       </div>
     </div>
       <div class="modal-footer">
@@ -157,20 +161,24 @@
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Add_Deskripsi'); ?>">
+      <form method="POST" id="addDeskripsi" action="<?php echo base_url('Backdoor/Add_Deskripsi'); ?>">
       <div class="form-group">
-      <?php $checker=1;?>
-      <label for="namaBarang">Nama Barang</label>
-      <select id="select2EditKatalog" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+        <?php $checker=1;?>
+        <label for="namaBarang">Nama Barang</label>
+        <select id="select2EditKatalog" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+        <option></option>
         <?php
         
         foreach($katalog as $row) {
           if(!isset($row->deskripsi)) { ?>
-          <option value="<?php echo $row->id_katalog;?>"><?php echo $row->nama_barang;?>
+          <option value="<?php echo $row->id_katalog;?>"><?php echo $row->nama_barang;?></option>
         <?php $checker=$row->deskripsi;}}
         ?>
-      </select>
-      <label for="deskripsi">Deskripsi Barang</label><textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="deskripsi">Deskripsi Barang</label>
+        <textarea name="deskripsi" id="deskripsi" class="form-control deskripsi" required></textarea>
       </div>
     </div>
     <div class="modal-footer">
@@ -207,7 +215,9 @@
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
 <!-- Select 2  -->
 <script src="<?php echo base_url('assets/select2/js/select2.full.min.js');?>"></script>
-
+<!-- jquery-validation -->
+<script src="<?php echo base_url('assets/js/jquery-validation/jquery.validate.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-validation/additional-methods.min.js');?>"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -248,8 +258,14 @@ $(function () {
 
   $('#select2EditKatalog').select2({
           dropdownParent: $('#addModal'),
+          placeholder: "Silahkan memilih barang"
+          
+          
       });
-
+  
+ 
+     
+  
 
   $('#editModal').on('show.bs.modal', function (e) {
     var _button = $(e.relatedTarget);
@@ -279,7 +295,66 @@ $('#deleteModal').on('show.bs.modal', function (e) {
 
 });
 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#addDeskripsi').validate({
+    rules: {
+      id_katalog: {
+        required: true,
+      },
+      deskripsi: {
+        required: true,
 
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+
+
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function (form) {
+      form.submit();
+    }
+  });
+  $('#editDeskripsi').validate({
+    rules: {
+      nama_barang: {
+        required: true,
+      },
+      deskripsi: {
+        required: true,
+
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
 
 
 </script>
