@@ -84,7 +84,7 @@ th.dpass, td.dpass {display: none;}
               <td class="nama_kategori" style="text-align: center;"><?php echo $row->nama_kategori; ?></td>
               <td class="id_kategori" style="text-align: center;"><?php echo $row->id_kategori; ?></td>
               <td class="harga" style="text-align: center;"><?php echo "Rp. ".number_format($row->harga,0,',','.'); ?> </td>
-              <td class="stok" style="text-align: center;"><?php echo $row->stok; ?></td>
+              <td class="stok" style="text-align: center;"><?php if(is_null($row->stok)) echo  (int) 0; else echo $row->stok; ?></td>
               <td style="text-align: center;"><a href="" data-bs-toggle="modal" data-bs-target="#detailModal"><img class="image" alt="" src="<?php echo base_url('uploads/'.$row->image);?>" style="width:100px;height:100px;"></a></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>

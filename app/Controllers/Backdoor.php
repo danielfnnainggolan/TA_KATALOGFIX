@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\Admin;
 use App\Models\Katalog;
 use App\Models\Kategori;
+
 use App\Models\CustomModel;
 use App\Models\Merek;
 use App\Models\Stok;
@@ -19,6 +20,7 @@ class Backdoor extends BaseController
 		$this->stok = new Stok();
         $this->katalog = new Katalog();
 		$this->kategori = new Kategori();
+		
 		
         helper('form', 'url');
     }
@@ -134,6 +136,7 @@ class Backdoor extends BaseController
 			{
 				$id_katalog = $this->request->getPost('id_katalog');
 				$this->katalog->delete($id_katalog);
+				$this->stok->where('id_katalog', $id_katalog)->delete();
 				return redirect()->to('Backdoor/Katalog');
 			}
 
@@ -248,6 +251,7 @@ class Backdoor extends BaseController
 			{
 				$id_merek = $this->request->getPost('id_merek');
 				$this->merek->delete($id_merek);
+				$this->katalog->where('id_merek', $id_merek)->delete();
 				return redirect()->to('Backdoor/Merek');
 			}
 
@@ -257,8 +261,6 @@ class Backdoor extends BaseController
 				$data['stok'] = $model->getStok();
 				$data['katalog'] = $this->katalog->findAll();
 				echo view('Backdoor/Stok', $data);
-
-				
 				
 			}
 
@@ -287,7 +289,6 @@ class Backdoor extends BaseController
 	public function Delete_Stok()
 			{
 				$id = $this->request->getPost('id_stok');
-
 				$this->stok->delete($id);
 				return redirect()->to('Backdoor/Stok');
 			}
@@ -372,13 +373,14 @@ class Backdoor extends BaseController
 
 				$model = new CustomModel;
 				$data['kategori'] = $model->getKategori();
-				// foreach($data['kategori'] as $row) {
-				// 	if($row->id_kategori1 == $id_kategori || $row->parent_kategori1 == $id_kategori || $row->id_kategori == $id_kategori) {
-				// 		array_push($id, $row->id_kategori);
-				// 	}
-				// }
+				foreach($data['kategori'] as $row) {
+					if($row->id_kategori1 == $id_kategori || $row->parent_kategori1 == $id_kategori || $row->id_kategori == $id_kategori) {
+						array_push($id, $row->id_kategori);
+					}
+				}
 
-				$this->kategori->delete($id_kategori);
+				$this->kategori->delete($id);
+				$this->katalog->where('id_kategori', $id_kategori)->delete();
 				return redirect()->to('Backdoor/Kategori');
 			}
 	public function Account()

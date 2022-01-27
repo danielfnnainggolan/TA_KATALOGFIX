@@ -81,8 +81,7 @@
               <td class="parent_kategori" style="text-align: center;"><?php if(!is_null($row->parent_kategori)) {echo $row->parent_kategori;} else echo "-"; ?></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
-              <?php if(is_null($row->id_kategori1) && is_null($row->parent_kategori1)) {} else { ?><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
-              <?php }?>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
 
                 </td>
             </tr>
@@ -355,16 +354,16 @@ $('#deleteModal').on('show.bs.modal', function (e) {
   var _jenis_kategori_delete = _row.find(".jenis_kategori").text();
   $(this).find(".id_kategori_delete").val(_id_kategori_delete);
   
-  // let x = "Kategori Utama";
-  // let y = "Sub Kategori 1";
-  // let z = "Sub Kategori 2";
-  // if(_jenis_kategori_delete.valueOf() == x.valueOf()) {
-  //   document.getElementById("p1").innerHTML = "Menghapus Kategori Utama akan menghapus Sub Kategori 1 dan 2 dari Kategori Utama. Apakah Anda yakin untuk menghapus kategori ini?";
-  // } else if(_jenis_kategori_delete.valueOf() == y.valueOf()) {
-  //   document.getElementById("p1").innerHTML = "Menghapus Sub Kategori 1 akan menghapus Sub Kategori 2 dari Sub Kategori 1. Apakah Anda yakin untuk menghapus kategori ini?";
-  // } else if(_jenis_kategori_delete.valueOf() == z.valueOf()) {
-  //   document.getElementById("p1").innerHTML = "Apakah Anda yakin untuk menghapus kategori ini?";
-  // }
+  let x = "Kategori Utama";
+  let y = "Sub Kategori 1";
+  let z = "Sub Kategori 2";
+  if(_jenis_kategori_delete.valueOf() == x.valueOf()) {
+    document.getElementById("p1").innerHTML = "Menghapus Kategori Utama akan menghapus Sub Kategori 1 dan 2 dari Kategori Utama. Apakah Anda yakin untuk menghapus kategori ini?";
+  } else if(_jenis_kategori_delete.valueOf() == y.valueOf()) {
+    document.getElementById("p1").innerHTML = "Menghapus Sub Kategori 1 akan menghapus Sub Kategori 2 dari Sub Kategori 1. Apakah Anda yakin untuk menghapus kategori ini?";
+  } else if(_jenis_kategori_delete.valueOf() == z.valueOf()) {
+    document.getElementById("p1").innerHTML = "Apakah Anda yakin untuk menghapus kategori ini?";
+  }
 
  
 
