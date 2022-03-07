@@ -39,6 +39,7 @@ $routes->group('(?i)Backdoor', ['filter' => 'auth'], function ($routes) {
     $routes->add('(?i)Katalog', 'Backdoor::katalog');
     $routes->add('(?i)Deskripsi', 'Backdoor::deskripsi');
 	$routes->add('(?i)Merek', 'Backdoor::merek');
+	$routes->add('(?i)Kontak', 'Backdoor::kontak');
 	$routes->add('(?i)Welcome', 'Backdoor::welcome');
 	$routes->add('(?i)Kategori', 'Backdoor::kategori');
 	$routes->add('(?i)Stok', 'Backdoor::stok');

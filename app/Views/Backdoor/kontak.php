@@ -56,8 +56,11 @@
             <thead>
             <tr>
               <th style="text-align: center;">No.</th>
-              <th class="noExport" style="text-align: center;">id_merek</th>
-              <th style="text-align: center;">Nama Merek</th>
+              <th class="noExport" style="text-align: center;">id</th>
+              <th style="text-align: center;">Nama Kontak</th>
+              <th style="text-align: center;">Alamat</th>
+              <th style="text-align: center;">Email</th>
+              <th style="text-align: center;">Nomor HP</th>
               <th class="noExport" style="text-align: center;">Aksi</th>
 
             </tr>
@@ -66,11 +69,14 @@
           <?php
 
           $num=1;
-          foreach ($merek as $row) { ?>
+          foreach ($kontak as $row) { ?>
             <tr>
               <td class="num" style="text-align: center;"><?php echo $num;?></td>
-              <td class="id_merek" style="text-align: center;"><?php echo $row['id_merek'];?></td>
-              <td class="nama_merek" style="text-align: center;"><?php echo $row['nama_merek']; ?></td>
+              <td class="id" style="text-align: center;"><?php echo $row['id'];?></td>
+              <td class="nama_kontak" style="text-align: center;"><?php echo $row['nama']; ?></td>
+              <td class="alamat" style="text-align: center;"><?php echo $row['alamat'];?></td>
+              <td class="email" style="text-align: center;"><?php echo $row['email'];?></td>
+              <td class="no_hp" style="text-align: center;"><?php echo $row['no_hp'];?></td>
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
@@ -93,17 +99,28 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Merek</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Informasi Kontak</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="editMerek" method="POST" action="<?php echo base_url('Backdoor/Edit_Merek'); ?>">
+        <form id="editKontak" method="POST" action="<?php echo base_url('Backdoor/Edit_Kontak'); ?>">
 
         <div class="form-group">
-        <input type="text" name="id_merek"  class="form-control id_merek" hidden >
-        <label for="namaMerek">Nama Merek</label><input type="text" name="nama_merek" class="form-control nama_merek " required >
+        <input type="text" name="id"  class="form-control id" hidden >
+        <label for="namaKontak">Nama Kontak</label><input type="text" name="nama_kontak" class="form-control nama_kontak " required >
+      </div>
+      <div class="form-group">
+        
+        <label for="alamatKontak">Alamat </label><input type="text" name="alamat" class="form-control alamat " required >
+      </div>
+      <div class="form-group">
+        
+        <label for="email">Email</label><input type="text" name="email" class="form-control email " required >
+      </div>
+      <div class="form-group">
+        <label for="nomorHP">Nomor HP</label><input type="text" name="no_hp" class="form-control no_hp " required >
       </div>
     </div>
       <div class="modal-footer">
@@ -126,9 +143,9 @@
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Delete_Merek'); ?>">
+      <form method="POST" action="<?php echo base_url('Backdoor/Delete_Kontak'); ?>">
       <div class="form-group">
-      <input type="text" name="id_merek"  class="form-control id_merek_delete" hidden>
+      <input type="text" name="id"  class="form-control id_delete" hidden>
       <p> Apakah Anda yakin ingin menghapus merek barang ini? </p>
       </div>
     </div>
@@ -145,17 +162,28 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Tambah Merek</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Tambah Informasi Kontak</h5>
       <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <form id="addMerek" method="POST" action="<?php echo base_url('Backdoor/Add_Merek'); ?>">
+      <form id="addKontak" method="POST" action="<?php echo base_url('Backdoor/Add_Kontak'); ?>">
       <div class="form-group">
-
-      <label for="namaMerek">Nama Merek</label>
-      <input type="text" name="nama_merek" class="form-control" required placeholder="Silahkan mengisi nama merek">
+      <label for="namaKontak">Nama Kontak</label>
+      <input type="text" name="nama" class="form-control" required placeholder="Silahkan mengisi nama kontak">
+      </div>
+      <div class="form-group">
+      <label for="alamatKontak">Alamat</label>
+      <input type="text" name="alamat" class="form-control" required placeholder="Silahkan mengisi alamat">
+      </div>
+      <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" name="email" class="form-control" required placeholder="Silahkan mengisi email">
+      </div>
+      <div class="form-group">
+      <label for="no_hp">Nomor HP</label>
+      <input type="text" name="no_hp" id="no_hp" class="form-control" required placeholder="Silahkan mengisi nomor hp">
       </div>
     </div>
     <div class="modal-footer">
@@ -216,7 +244,7 @@
 $(function () {
     $("#example1").DataTable({
                         "retrieve":true,"responsive": true, "lengthChange": false, "autoWidth": false,"ordering": false,
-                        "buttons": [{text: 'Tambah Merek',action: function (e, node, config){$('#addModal').modal('show')}}],
+                        "buttons": [{text: 'Tambah Informasi Kontak',action: function (e, node, config){$('#addModal').modal('show')}}],
                         "aoColumnDefs": [ { "sClass": "dpass", "aTargets": [ 1 ] } ]
 
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -239,10 +267,21 @@ $(function () {
       form.submit();
     }
   });
-  $('#addMerek').validate({
+  $('#addKontak').validate({
     rules: {
-      nama_merek: {
+      nama: {
         required: true,
+      },
+      alamat: {
+        required: true,
+      },
+      email: {
+        required: true,
+        email: true
+      },
+      no_hp: {
+        required: true,
+        number:true
       },
     },
     
@@ -266,7 +305,7 @@ $(function () {
       form.submit();
     }
   });
-  $('#editMerek').validate({
+  $('#editKontak').validate({
     rules: {
       nama_merek: {
         required: true,
@@ -292,12 +331,18 @@ $(function () {
     var _button = $(e.relatedTarget);
     // console.log(_button, _button.parents("tr"));
     var _row = _button.parents("tr");
-    var _nama_merek = _row.find(".nama_merek").text();
-    var _id_merek = _row.find(".id_merek").text();
+    var _nama_kontak = _row.find(".nama_kontak").text();
+    var _id= _row.find(".id").text();
+    var _alamat= _row.find(".alamat").text();
+    var _email= _row.find(".email").text();
+    var _no_hp= _row.find(".no_hp").text();
 
 
-    $(this).find(".nama_merek").val(_nama_merek);
-    $(this).find(".id_merek").val(_id_merek);
+    $(this).find(".nama_kontak").val(_nama_kontak);
+    $(this).find(".alamat").val(_alamat);
+    $(this).find(".email").val(_email);
+    $(this).find(".no_hp").val(_no_hp);
+    $(this).find(".id").val(_id);
     });
 
 
@@ -308,11 +353,32 @@ $('#deleteModal').on('show.bs.modal', function (e) {
 
   // console.log(_button, _button.parents("tr"));
   var _row = _button.parents("tr");
-  var _id_merek_delete = _row.find(".id_merek").text();
-  $(this).find(".id_merek_delete").val(_id_merek_delete);
+  var _id_delete = _row.find(".id").text();
+  $(this).find(".id_delete").val(_id_delete);
 
 });
 
+function setInputFilter(textbox, inputFilter) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+    textbox.addEventListener(event, function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+
+
+setInputFilter(document.getElementById("no_hp"), function(value) {
+  return /^-?\d*$/.test(value); });
 
 
 

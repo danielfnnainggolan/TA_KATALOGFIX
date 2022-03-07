@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\Admin;
 use App\Models\Katalog;
 use App\Models\Kategori;
+use App\Models\Kontak;
 
 use App\Models\CustomModel;
 use App\Models\Merek;
@@ -17,6 +18,7 @@ class Backdoor extends BaseController
     {
 		$this->user = new Admin();
 		$this->merek = new Merek();
+		$this->kontak = new Kontak();
 		$this->stok = new Stok();
         $this->katalog = new Katalog();
 		$this->kategori = new Kategori();
@@ -168,6 +170,7 @@ class Backdoor extends BaseController
 						$data = [
 						'id_katalog' => $id_katalog['id_katalog'],
 						'status' => (int)$this->request->getPost('stok'),
+						'keterangan' => "Barang masuk pada sistem"
 								];		
 				
 						$this->stok->insert($data);
@@ -229,6 +232,47 @@ class Backdoor extends BaseController
 				echo view('Backdoor/merek', $data);
 				
 			}
+
+	public function Kontak()
+			{
+				$data['kontak'] = $this->kontak->findAll();
+				echo view('Backdoor/kontak', $data);
+				
+			}
+	
+	public function Add_Kontak()
+			{
+				$data = [
+					'nama' => $this->request->getPost('nama'),
+					'email' => $this->request->getPost('email'),
+					'alamat' => $this->request->getPost('alamat'),
+					'no_hp' => $this->request->getPost('no_hp'),
+						];
+				$this->kontak->insert($data);
+				return redirect()->to('Backdoor/Kontak');
+			}
+
+	public function Edit_Kontak()
+			{
+				 $id = $this->request->getPost('id');
+				 $data = [
+					 		'nama' => $this->request->getPost('nama_kontak'),
+							'email' => $this->request->getPost('email'),
+							'alamat' => $this->request->getPost('alamat'),
+							'no_hp' => $this->request->getPost('no_hp'),
+									];
+				
+			     $this->kontak->update($id, $data);
+				 return redirect()->to('Backdoor/Kontak');
+			}
+
+	public function Delete_Kontak()
+			{
+				$id = $this->request->getPost('id');
+				$this->kontak->delete($id);
+				return redirect()->to('Backdoor/Kontak');
+			}
+
 
 	public function Add_Merek()
 			{
@@ -322,7 +366,7 @@ class Backdoor extends BaseController
 	public function Add_Kategori()
 			{
 				$parent_kategori = $this->request->getPost('parent_kategori');
-				if(is_null($parent_kategori) || empty($parent_kategori)) 
+				if($parent_kategori == "-") 
 				{
 					$data = [
 						'nama_kategori' => $this->request->getPost('nama_kategori'),
@@ -385,8 +429,9 @@ class Backdoor extends BaseController
 			}
 	public function Account()
 	  {
+		//$session = session();
 		$data['admin'] = $this->user->find(session()->get('id_admin'));
-		
+		//$session->setFlashdata('account_success', 'Password berhasil diubah');
 	    echo view('Backdoor/account', $data);
 		
 	  }

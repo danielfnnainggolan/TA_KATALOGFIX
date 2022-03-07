@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/css/fontawesome-all.min.css');?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/adminlte.min.css');?>">
+   <!-- Toastr -->
+   <link rel="stylesheet" href="<?php echo base_url('assets/toastr/toastr.min.css');?>">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap4.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/responsive.bootstrap4.min.css');?>">
@@ -106,8 +108,7 @@
 <script src="<?php echo base_url('assets/js/bootstrap.bundle.min.js');?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/js/adminlte.min.js');?>"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url('assets/js/demo.js');?>"></script>
+
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/dataTables.bootstrap4.min.js');?>"></script>
@@ -121,7 +122,16 @@
 <script src="<?php echo base_url('assets/js/buttons.html5.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/buttons.print.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/buttons.colVis.min.js');?>"></script>
+<!-- Toastr -->
+<script src="<?php echo base_url('assets/toastr/toastr.min.js');?>"></script>
+<!-- <?php //if (session()->getFlashdata('account_success') !== NULL) : ?>
+      <script>
+     toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr');
+     </script>
+<?php //endif; ?> -->
 
+   
+   
 <script>
   $(function () {
     $("#example1").DataTable({
@@ -138,6 +148,8 @@
       "responsive": true,
     });
   });
+
+ 
 </script>
 </body>
 </html>

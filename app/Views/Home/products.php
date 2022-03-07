@@ -64,7 +64,7 @@
 							
 							<?php foreach ($product as $row) { ?>
 							
-							<span class="image fit left"><img class="img-fit" src="<?= base_url('uploads/'.$row->image);?>" alt="" /></span>
+							<span class="image fit left"><img class="img-fit" src="<?= base_url('uploads/'.$row->image);?>" alt=""  style="border: 5px solid #555";/></span>
 							<p style="text-align: justify; text-justify: inter-word;"><?= $row->deskripsi;?></p><br>
 
 							
