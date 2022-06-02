@@ -39,13 +39,20 @@ $routes->group('(?i)Backdoor', ['filter' => 'auth'], function ($routes) {
     $routes->add('(?i)Katalog', 'Backdoor::katalog');
     $routes->add('(?i)Deskripsi', 'Backdoor::deskripsi');
 	$routes->add('(?i)Merek', 'Backdoor::merek');
-	$routes->add('(?i)Kontak', 'Backdoor::kontak');
 	$routes->add('(?i)Welcome', 'Backdoor::welcome');
 	$routes->add('(?i)Kategori', 'Backdoor::kategori');
 	$routes->add('(?i)Stok', 'Backdoor::stok');
 	$routes->add('(?i)Account', 'Backdoor::account');
 	$routes->add('(?i)Logout', 'Backdoor::logout');
 	//$routes->add('History', 'Backdoor::stok');
+});
+
+
+$routes->group('(?i)Backdoor', ['filter' => 'authadmin'], function ($routes) {
+	
+	$routes->add('(?i)Kontak', 'Backdoor::kontak');
+	$routes->add('(?i)Manage', 'Backdoor::manage');
+	
 });
 
 

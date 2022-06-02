@@ -66,9 +66,21 @@
               </li>
             </ul>
             <li class="nav-item">
+              <a href="<?= base_url('Backdoor/Kontak');?>" class="nav-link">
+                <i class="nav-icon fas fa-building"></i>
+                <p>Informasi Kontak</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<?= base_url('Backdoor/Account');?>" class="nav-link">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>Account Settings</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('Backdoor/Manage');?>" class="nav-link">
+              <i class="nav-icon fas fa-user-cog"></i>
+                <p>Kelola Akun</p>
               </a>
             </li>
             <!-- <li class="nav-item">
@@ -79,7 +91,7 @@
             </li> -->
             <li class="nav-item">
               <a href="<?= base_url('Backdoor/Logout');?>" class="nav-link">
-                <i class="far fa-user nav-icon"></i>
+                <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Logout</p>
               </a>
             </li>

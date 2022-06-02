@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KGA | Daftar Katalog</title>
-<style>
-th.dpass, td.dpass {display: none;}
-</style>
+  <title>KGA | Stok Barang</title>
+  <style>
+  th.dpass, td.dpass {display: none;}
+  </style>
+
   <!-- Select 2 -->
   <link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2.min.css');?>">
   <!-- Theme style -->
@@ -16,7 +17,6 @@ th.dpass, td.dpass {display: none;}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/fontawesome-all.min.css');?>">
-
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap4.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/responsive.bootstrap4.min.css');?>">
@@ -26,9 +26,10 @@ th.dpass, td.dpass {display: none;}
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
-
+  
   <!-- Main Sidebar Container -->
-  <?= $this->include('Backdoor/sidebar') ?>
+  <?= $this->include('Backdoor/Admin/Sidebar') ?>
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -37,7 +38,7 @@ th.dpass, td.dpass {display: none;}
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Daftar Katalog</h1>
+            <h1>Stok Barang</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -52,40 +53,36 @@ th.dpass, td.dpass {display: none;}
     <section class="content">
       <div class="card">
 
-        <div class="card-body">
+      <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th style="text-align: center;">No.</th>
-              <th class="noExport" style="text-align: center;" hidden>id_katalog</th>
+              <th class="noExport" style="text-align: center;">id_stok</th>
+              <th class="noExport" style="text-align: center;">id_katalog</th>
+              
               <th style="text-align: center;">Nama Barang</th>
-              <th class="noExport" style="text-align: center;" hidden>ID Merek</th>
-              <th style="text-align: center;">Merek</th>
-              <th style="text-align: center;">Kategori</th>
-              <th class="noExport" style="text-align: center;" hidden>ID Kategori</th>
-              <th style="text-align: center;">Harga</th>
-              <th style="text-align: center;">Stok</th>
-              <th class="noExport" style="text-align: center;">Gambar</th>
+              <th style="text-align: center;">Status</th>
+              <th style="text-align: center;">Keterangan</th>
+              <th style="text-align: center;">Data Terakhir Diubah</th>
               <th class="noExport" style="text-align: center;">Aksi</th>
 
             </tr>
             </thead>
             <tbody>
           <?php
-
-          $num = 1;
-          foreach ($katalog as $row) { ?>
+          
+          $num=1;
+          foreach ($stok as $row) { ?>
             <tr>
               <td class="num" style="text-align: center;"><?php echo $num;?></td>
+              <td class="id_stok" style="text-align: center;"><?php echo $row->id;?></td>
               <td class="id_katalog" style="text-align: center;"><?php echo $row->id_katalog;?></td>
               <td class="nama_barang" style="text-align: center;"><?php echo $row->nama_barang; ?></td>
-              <td class="id_merek" style="text-align: center;"><?php echo $row->id_merek; ?></td>
-              <td class="nama_merek" style="text-align: center;"><?php echo $row->nama_merek; ?></td>
-              <td class="nama_kategori" style="text-align: center;"><?php echo $row->nama_kategori; ?></td>
-              <td class="id_kategori" style="text-align: center;"><?php echo $row->id_kategori; ?></td>
-              <td class="harga" style="text-align: center;"><?php echo "Rp. ".number_format($row->harga,0,',','.'); ?> </td>
-              <td class="stok" style="text-align: center;"><?php if(is_null($row->stok)) echo  (int) 0; else echo $row->stok; ?></td>
-              <td style="text-align: center;"><a href="" data-bs-toggle="modal" data-bs-target="#detailModal"><img class="image" alt="" src="<?php echo base_url('uploads/'.$row->image);?>" style="width:100px;height:100px;"></a></td>
+              <td class="status" style="text-align: center;"><?php echo $row->status; ?></td>
+              <td class="keterangan" style="text-align: center;"><?php if(is_null($row->keterangan)) {echo "Stok Barang Masuk Sistem"; } else {echo $row->keterangan;} ?></td>
+              <td class="createdAt" style="text-align: center;"><?php echo $row->createdAt; ?></td>
+
               <td style="text-align: center;">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Hapus</button>
@@ -96,6 +93,7 @@ th.dpass, td.dpass {display: none;}
             </tfoot>
           </table>
         </div>
+
         <!-- /.card-body -->
       </div>
     </section>
@@ -103,60 +101,35 @@ th.dpass, td.dpass {display: none;}
   </div>
   <!-- /.content-wrapper -->
 
-
   <div class="modal fade" id="editModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Barang</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Stok</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" id="editKatalog" action="<?php echo base_url('Backdoor/Edit_Katalog'); ?> " enctype="multipart/form-data">
-
-       
-        <input type="text" name="id_katalog"  class="form-control id_katalog" hidden>
-        <input type="text" name="stok1"  class="form-control stok1" hidden >
-        
+        <form method="POST" id="editStok" action="<?php echo base_url('Backdoor/Edit_Stok'); ?>">
+        <input type="text" name="id_stok"  class="form-control id_stok"  hidden>
         <div class="form-group">
           <label for="namaBarang">Nama Barang</label>
-          <input type="text" name="nama_barang" class="form-control nama_barang" required>
-        </div>
-        <div class="form-group">
-          <label for="namaMerek">Merek</label>
-          <select id="select2EditMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek" >
-            <?php foreach($merek as $row) { ?>
-              <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?>
-            <?php } ?>
+          <select id="select2EditStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+          <?php foreach($katalog as $row) {?>
+            <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?>
+          <?php } ?>
           </select>
         </div>
         <div class="form-group">
-          <label for="namaKategori">Kategori</label>
-          <select id="select2EditKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
-            <?php foreach($kategori as $row) { ?>
-              <?php if(!is_null($row['parent_kategori'])) { ?>
-                <?php foreach($kategori as $row1) { ?>
-                  <?php if($row1['parent_kategori'] == $row['id_kategori']) { ?>
-                    <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?>
-                <?php }} ?>
-              <?php }} ?>
-          </select>
+          <label for="status">Status</label>
+          <input id="status" type="text" name="status"  class="form-control status" required>
         </div>
         <div class="form-group">
-          <label for="harga">Harga</label>
-          <input type="text" name="harga" id="harga" class="form-control harga" required>
-        </div>
-        <div class="form-group">
-          <label for="harga">Stok</label>
-          <input id="stok1" type="text" name="stok"  class="form-control stok" required>
-        </div>
-        <div class="form-group">
-          <label for="harga">Upload Gambar </label>
-          <input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg">
+          <label for="keterangan">Keterangan</label>
+          <input type="text" name="keterangan"  class="form-control keterangan" required >
         
-        </div>
+      </div>
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -167,42 +140,21 @@ th.dpass, td.dpass {display: none;}
   </div>
 </div>
 
-<div class="modal fade " id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel"> Detail Gambar</h5>
-      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <img src="" class="image_detail img-responsive center-block" style="height:auto;width:100%;text-align:center">
-      
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tutup</button>
-      
-    </form>
-    </div>
-  </div>
-</div>
-</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Hapus Barang</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Hapus Stok</h5>
       <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" action="<?php echo base_url('Backdoor/Delete_Katalog'); ?>">
+      <form method="POST" action="<?php echo base_url('Backdoor/Delete_Stok'); ?>">
       <div class="form-group">
-      <input type="text" name="id_katalog"  class="form-control id_katalog_delete" hidden>
-      <p> Apakah Anda yakin ingin menghapus barang ini? </p>
+      <input type="text" name="id_stok"  class="form-control id_stok_delete" hidden>
+      <p> Apakah Anda yakin ingin menghapus stok barang ini? </p>
       </div>
     </div>
     <div class="modal-footer">
@@ -213,56 +165,36 @@ th.dpass, td.dpass {display: none;}
   </div>
 </div>
 </div>
+ 
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Tambah Barang</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Tambah Data Stok</h5>
       <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <form method="POST" id="addKatalog" action="<?php echo base_url('Backdoor/Add_Katalog'); ?>" enctype="multipart/form-data">
+      <form method="POST" id="addStok" action="<?php echo base_url('Backdoor/Add_Stok'); ?>">
       <div class="form-group">
         <label for="namaBarang">Nama Barang</label>
-        <input type="text" name="nama_barang" class="form-control" required placeholder="Silahkan mengisi nama barang">
-      </div>
-      <div class="form-group">              
-        <label for="harga">Harga</label>
-        <input type="text" name="harga" id="harga_add" class="form-control" required placeholder="Silahkan mengisi harga barang">
-      </div>
-      <div class="form-group">
-        <label for="merek">Merek</label>
-        <select id="select2AddMerek" class="form-control select2 id_merek" style="width:100%" name="id_merek">
-          <option></option>
-          <?php foreach($merek as $row) { ?>
-            <option value="<?php echo $row['id_merek'];?>"><?php echo $row['nama_merek'];?></option>
-          <?php }
+        <select id="select2AddStok" class="form-control select2 id_katalog" style="width:100%" name="id_katalog">
+        <option></option>
+        <?php foreach($katalog as $row) {?>
+          <option value="<?php echo $row['id_katalog'];?>"><?php echo $row['nama_barang'];?></option>
+        <?php }
         ?>
         </select>
       </div>
       <div class="form-group">
-        <label for="kategori">Kategori</label>
-        <select id="select2AddKategori" class="form-control select2 id_kategori" style="width:100%" name="id_kategori">
-          <option></option>
-          <?php foreach($kategori as $row) { ?>
-            <?php if(!is_null($row['parent_kategori'])) { ?>
-              <?php foreach($kategori as $row1) { ?>
-                  <?php if($row1['parent_kategori'] == $row['id_kategori']) { ?>
-                    <option value="<?php echo $row1['id_kategori'];?>"><?php echo $row1['nama_kategori'];?></option>
-                  <?php }} ?>
-              <?php }} ?>
-        </select>
+        <label for="status">Status Masuk (+) / Keluar (-) Barang</label>
+        <input type="text" name="status" id="status1" class="form-control status" placeholder="Cth : 50 atau -50" required>
       </div>
       <div class="form-group">
-        <label for="stok">Stok</label>
-        <input type="text" id="stok" name="stok"  class="form-control" required placeholder="Silahkan mengisi stok barang">
-      </div>
-      <div class="form-group">
-        <label for="upload">Upload Gambar </label>
-        <input type="file" name="gambar_katalog" class="form-control" accept="image/png, image/gif, image/jpeg" required placeholder="Silahkan mengunggah file barang">
+        <label for="keterangan">Keterangan</label>
+        <input type="text" name="keterangan" id="keterangan" class="form-control keterangan" placeholder="Cth: Barang Masuk / Keluar dari" required>
       </div>
     </div>
     <div class="modal-footer">
@@ -280,7 +212,7 @@ th.dpass, td.dpass {display: none;}
 
 
 
-
+ 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -324,13 +256,14 @@ th.dpass, td.dpass {display: none;}
 
 $(function () {
     $("#example1").DataTable({
-                        "retrieve":true,"responsive": true, "lengthChange": false, "autoWidth": false,"ordering": false,
+                        "retrieve":true,"responsive": true, "lengthChange": false, "autoWidth": false,"ordering": true, "pageLength" : 14,
                         "buttons": [{extend:'csv',exportOptions: {columns: "thead th:not(.noExport)"}},
                         {extend:'excel',exportOptions: {columns: "thead th:not(.noExport)"}},
                         {extend:'pdf',exportOptions: {columns: "thead th:not(.noExport)"}},
-                        {text: 'Tambah Barang',action: function (e, node, config){$('#addModal').modal('show')}}
+                        {text: 'Tambah Data Stok',action: function (e, node, config){$('#addModal').modal('show')}}
                                   ],
-                        "aoColumnDefs": [ { "sClass": "dpass", "aTargets": [ 1,3,6 ]} ]
+                        "aoColumnDefs": [ {  "sClass": "dpass", "aTargets": [ 1 ,2 ] } ]
+                       
 
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
@@ -341,73 +274,32 @@ $(function () {
 
   $('.select2').select2()
 
-  $('#select2EditMerek').select2({
-          dropdownParent: $('#editModal'),
-          
-      });
-
-  $('#select2EditKategori').select2({
-          dropdownParent: $('#editModal'),
-      });
-
-  $('#select2AddMerek').select2({
+  $('#select2AddStok').select2({
           dropdownParent: $('#addModal'),
-          placeholder: "Silahkan memilih merek barang"
+          placeholder: "Silahkan memilih nama barang"
+      });
+  $('#select2EditStok').select2({
+          dropdownParent: $('#editModal'),
       });
 
-  $('#select2AddKategori').select2({
-          dropdownParent: $('#addModal'),
-          placeholder: "Silahkan memilih kategori barang"
-      });
-
- 
-
-
-  new AutoNumeric('#harga', {
-      allowDecimalPadding: false,
-      currencySymbol: "Rp. ",
-      decimalCharacter: ",",
-      digitGroupSeparator: ".",
-      formatOnPageLoad: false,
-      minimumValue: 0
-  });
-
-  new AutoNumeric('#harga_add', {
-      allowDecimalPadding: false,
-      currencySymbol: "Rp. ",
-      decimalCharacter: ",",
-      digitGroupSeparator: ".",
-      formatOnPageLoad: false,
-      minimumValue: 0
-  });
-
-
+  
 
   $('#editModal').on('show.bs.modal', function (e) {
     var _button = $(e.relatedTarget);
     // console.log(_button, _button.parents("tr"));
     var _row = _button.parents("tr");
-    var _nama_barang = _row.find(".nama_barang").text();
-    var _id_merek = _row.find(".id_merek").text();
-    var _harga = _row.find(".harga").text();
+    var _id_stok = _row.find(".id_stok").text();
     var _id_katalog = _row.find(".id_katalog").text();
-    var _id_kategori= _row.find(".id_kategori").text();
-    var _stok = _row.find(".stok").text();
+    var _status = _row.find(".status").text();
+    var _keterangan = _row.find(".keterangan").text();
    
-
-
-    $(this).find(".nama_barang").val(_nama_barang);
-    AutoNumeric.getAutoNumericElement('#harga').set(_harga);
-    $(this).find(".id_katalog").val(_id_katalog);
-    $(this).find(".stok").val(_stok);
-    $(this).find(".stok1").val(_stok);
-    $('#select2EditMerek').val(_id_merek);
-    $('#select2EditMerek').trigger('change');
-
-    $('#select2EditKategori').val(_id_kategori);
-    $('#select2EditKategori').trigger('change');
     
-
+    $(this).find(".id_stok").val(_id_stok);
+    $('#select2EditStok').val(_id_katalog);
+    $('#select2EditStok').trigger('change');
+    $(this).find(".status").val(_status);
+    $(this).find(".keterangan").val(_keterangan);
+    console.log(_id_katalog);
     });
 
 
@@ -418,20 +310,12 @@ $('#deleteModal').on('show.bs.modal', function (e) {
 
   // console.log(_button, _button.parents("tr"));
   var _row = _button.parents("tr");
-  var _id_katalog_delete = _row.find(".id_katalog").text();
-  $(this).find(".id_katalog_delete").val(_id_katalog_delete);
-
-});
-
-$('#detailModal').on('show.bs.modal', function (e) {
-  var _button = $(e.relatedTarget);
-  var _row = _button.parents("tr");
-    // console.log(_button, _button.parents("tr"));  
-  //var link = _row
-  var _link = _row.find(".image").attr("src");
-  $(this).find(".image_detail").attr("src", _link);
- 
+  var _id_stok_delete = _row.find(".id_stok").text();
   
+
+ 
+  $(this).find(".id_stok_delete").val(_id_stok_delete);
+
 });
 
 $(function () {
@@ -440,38 +324,21 @@ $(function () {
       form.submit();
     }
   });
-  $('#addKatalog').validate({
+  $('#addStok').validate({
     rules: {
-      nama_barang: {
+      id_katalog: {
         required: true,
       },
-      harga: {
+      status: {
         required: true,
+        number:true,
 
       },
-      id_merek: {
+      keterangan: {
         required: true
       },
-      id_kategori: {
-        required: true
-      },
-      stok: {
-        required: true,
-        number: true,
-        min: 1
-      },
-      gambar_katalog: {
-        required: true,
-        accept: "image/*" 
-      },
     },
-    messages: {
-      gambar_katalog: {
-        accept:"Incorrect file type. Please only upload image files"
-      } 
-      
-      
-    },
+
     errorElement: 'span',
     errorPlacement: function (error, element) {
       error.addClass('invalid-feedback');
@@ -492,35 +359,21 @@ $(function () {
       form.submit();
     }
   });
-  $('#editKatalog').validate({
+  $('#editStok').validate({
     rules: {
-      nama_barang: {
+      id_katalog: {
         required: true,
       },
-      harga: {
+      status: {
         required: true,
+        number:true,
 
       },
-      id_merek: {
+      keterangan: {
         required: true
       },
-      id_kategori: {
-        required: true
-      },
-      stok: {
-        required: true,
-        number: true,
-        min: 0
-      },
-      gambar_katalog: {
-        accept: "image/*" 
-      }
     },
-    messages: {
-      gambar_katalog: "Incorrect file type. Please only upload image files",
-
-      
-    },
+    
     errorElement: 'span',
     errorPlacement: function (error, element) {
       error.addClass('invalid-feedback');
@@ -534,6 +387,7 @@ $(function () {
     }
   });
 });
+
 
 function setInputFilter(textbox, inputFilter) {
   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
@@ -552,15 +406,13 @@ function setInputFilter(textbox, inputFilter) {
   });
 }
 
-
-
-setInputFilter(document.getElementById("stok"), function(value) {
+setInputFilter(document.getElementById("status"), function(value) {
   return /^-?\d*$/.test(value); });
 
-setInputFilter(document.getElementById("stok1"), function(value) {
+setInputFilter(document.getElementById("status1"), function(value) {
   return /^-?\d*$/.test(value); });
-
 </script>
+
 
 
 

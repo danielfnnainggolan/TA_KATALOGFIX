@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Kategori;
 use App\Models\Katalog;
+use App\Models\Kontak;
+
 use App\Models\CustomModel;
 
 class Home extends BaseController
@@ -12,6 +14,7 @@ class Home extends BaseController
 	{
 		$this->kategori = new Kategori();
 		$this->katalog = new Katalog();
+		$this->kontak = new Kontak();
 		helper('form', 'url');
 		$this->uri = service('uri');
 		$this->perPage = 5;
@@ -22,10 +25,9 @@ class Home extends BaseController
 		$model = new CustomModel();
 		$data['kategori'] = $model->getKategori();
 		$data['kontak'] = $model->getKontak();
-
 		echo view('Home/index.php', $data);
 	}
-
+	
 	public function Search()
 	{
 		if (!empty($this->request->getGet('query'))) {

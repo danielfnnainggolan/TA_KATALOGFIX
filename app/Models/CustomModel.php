@@ -16,6 +16,7 @@ class CustomModel extends Model
     return $query;
   }
 
+
   public function getDeskripsi()
   {
     $builder = $this->db->table('daftar_katalog');
@@ -41,7 +42,7 @@ class CustomModel extends Model
   public function getKontak()
   {
     $builder = $this->db->table('kontak');
-    $query = $builder->get()->getResult();
+    $query = $builder->where('deleted_at', NULL)->get()->getResult();
     return $query;
   }
 
@@ -134,6 +135,8 @@ class CustomModel extends Model
     $query = $builder->get()->getResult();
     return $query;
   }
+
+
 
   
 

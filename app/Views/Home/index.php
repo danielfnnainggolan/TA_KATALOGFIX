@@ -6,42 +6,16 @@
 -->
 <html>
 	<head>
-
 		<style>
-
-		img {
-    		max-width: 100%;
-    		max-height: 100%;
-			}
-		.carousel-item
-		{
-			height: 600px;
-			overflow: hidden;
-			width: auto;
-		}
-
-		.carousel-item > img
-		{
-    	width: 100%;
-    	height: 100%;
-    	object-fit: cover;
-		}
-
-		.carousel carousel-indicators li
-		{
-  		width: 10px;
-  		height: 10px;
-  		border-radius: 100%;
-		}
-
-		
-
-</style>
+		</style>
 		<title>CV. Karya Graha Agung</title>
+		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.css');?>" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/main.css');?>" />
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/index.css');?>" />
+		
 
 
 	</head>
@@ -93,31 +67,32 @@
 									</header>
 									<div class="features">
 										<article>
-											<span class="icon fa-gem"></span>
+											<span class="icon solid fa-gem"></span>
 											<div class="content">
-												<h3>Portitor ullamcorper</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+												<h3>Authentic Products</h3>
+												<p style='text-align:justify;'>We only sell authentic products. All products come directly from factories and are certified. </p>
 											</div>
 										</article>
 										<article>
-											<span class="icon solid fa-paper-plane"></span>
+											<span class="icon solid fa-wrench"></span>
 											<div class="content">
-												<h3>Sapien veroeros</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+												<h3>Extended Warranty</h3>
+												<p style='text-align:justify;'> We offer service warranty handled by experienced technicians in case something happens with the products you purchased.</p>
 											</div>
 										</article>
+										
 										<article>
-											<span class="icon solid fa-rocket"></span>
+											<span class="icon solid fa-truck"></span>
 											<div class="content">
-												<h3>Quam lorem ipsum</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+												<h3>Ready Stock</h3>
+												<p style='text-align:justify;'> We always try our best to make sure every products ready to be delivered.</p>
 											</div>
 										</article>
 										<article>
 											<span class="icon solid fa-signal"></span>
 											<div class="content">
-												<h3>Sed magna finibus</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+												<h3>Guaranteed Price and Spare Parts</h3>
+												<p>We offer the best price for our products and spare parts.</p>
 											</div>
 										</article>
 									</div>

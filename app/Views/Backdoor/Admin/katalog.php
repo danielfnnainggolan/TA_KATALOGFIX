@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -28,7 +30,7 @@ th.dpass, td.dpass {display: none;}
 <div class="wrapper">
 
   <!-- Main Sidebar Container -->
-  <?= $this->include('Backdoor/sidebar') ?>
+  <?= $this->include('Backdoor/Admin/Sidebar') ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -561,6 +563,8 @@ setInputFilter(document.getElementById("stok1"), function(value) {
   return /^-?\d*$/.test(value); });
 
 </script>
+
+
 
 
 

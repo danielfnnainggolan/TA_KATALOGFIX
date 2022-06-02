@@ -2,20 +2,31 @@
 						<div class="inner">
 
 							<!-- Search -->
-								<section id="search" class="alt">
+								<section  class="alt">
 
 								<div>
 									<a href="<?= base_url('Home');?>"> <img src="<?= base_url('images/sidebar.png');?>"></a>
 										
 								</div>
 								<br>
-							
 								
-								<div >
-									<form method="GET" action="<?= base_url('Home/Search');?>">
-										<input type="text"  class="form-control" name="query" id="query" placeholder="Search" />
-									</form>
+	
+
+								  
+								<form method="GET" id="myform" action="<?= base_url('Home/Search');?>">
+								<div class="input-group mb-3">
+									<input type="text"  class="form-control" name="query" id="query" placeholder="Search" aria-describedby="basic-addon2">
+									<a href="#" id="button-addon2" onclick="document.getElementById('myform').submit()" class="button-html icon solid fa-search"></a>
+									
+  									
 								</div>
+
+								
+								</form>
+									
+
+								
+								
 								</section>
 
 							<!-- Menu -->
@@ -61,3 +72,13 @@
 									</ul>
 									<?php } ?>
 									</section>
+								<!-- <section>
+									<div style="width: 50%; float:left">
+										<img src="https://milwaukeeinstruments.eu/media/b3/62/89/1640102151/logo-white.png">
+									</div>
+
+									<div style="width: 50%; float:right">
+   										#right content in there
+									</div>
+								</section> -->
+

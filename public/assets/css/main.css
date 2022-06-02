@@ -1034,9 +1034,11 @@ textarea {
   border: none;
   border: solid 1px rgba(210, 215, 217, 0.75);
   color: inherit;
-  display: block;
+  display: inline-block;
+  
   outline: 0;
   padding: 0 1em;
+  
   text-decoration: none;
   width: 100%; }
   input[type="text"]:invalid,
@@ -1057,7 +1059,7 @@ textarea {
   select:focus,
   textarea:focus {
     border-color: #f56a6a;
-    box-shadow: 0 0 0 1px #f56a6a; }
+    box-shadow: 0 0 0 0px #f56a6a; }
 
 select {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' preserveAspectRatio='none' viewBox='0 0 40 40'%3E%3Cpath d='M9.4,12.3l10.4,10.4l10.4-10.4c0.2-0.2,0.5-0.4,0.9-0.4c0.3,0,0.6,0.1,0.9,0.4l3.3,3.3c0.2,0.2,0.4,0.5,0.4,0.9 c0,0.4-0.1,0.6-0.4,0.9L20.7,31.9c-0.2,0.2-0.5,0.4-0.9,0.4c-0.3,0-0.6-0.1-0.9-0.4L4.3,17.3c-0.2-0.2-0.4-0.5-0.4-0.9 c0-0.4,0.1-0.6,0.4-0.9l3.3-3.3c0.2-0.2,0.5-0.4,0.9-0.4S9.1,12.1,9.4,12.3z' fill='rgba(210, 215, 217, 0.75)' /%3E%3C/svg%3E");
@@ -1493,9 +1495,9 @@ button-html,
   -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   background-color: transparent;
-  border-radius: 0.375em;
+  border-radius: 0em;
   border: 0;
-  box-shadow: inset 0 0 0 2px #f56a6a;
+  box-shadow: inset 0 0 0 1px #f56a6a;
   color: #f56a6a !important;
   cursor: pointer;
   display: inline-block;
@@ -1503,7 +1505,7 @@ button-html,
   font-size: 0.8em;
   font-weight: 700;
   height: 3.5em;
-  letter-spacing: 0.075em;
+  letter-spacing: 0.05em;
   line-height: 3.5em;
   padding: 0 2.25em;
   text-align: center;
@@ -1515,7 +1517,7 @@ button-html,
   input[type="button-html"]:hover,
   button-html:hover,
   .button-html:hover {
-    background-color: rgba(245, 106, 106, 0.05); }
+    background-color: rgba(350, 106, 106, 0.05); }
   input[type="submit"]:active,
   input[type="reset"]:active,
   input[type="button-html"]:active,

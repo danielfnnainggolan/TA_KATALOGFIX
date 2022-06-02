@@ -44,11 +44,13 @@ class Backdoor extends BaseController
 			if(!is_null($check)) {
 				$pass_check = $check['password'];
 				$password = $this->request->getPost('password');
+				
 				if(password_verify($password, $pass_check)) {
 					$ses_data = [
 						'username'       => $check['username'],
 						'id_admin'		=> $check['id_admin'],
-						'logged_in'     => TRUE
+						'logged_in'     => TRUE,
+						'tipe_user'     => $check['tipe_user']
 					];
 					$session->set($ses_data);
 					return redirect()->to('Backdoor/welcome');
@@ -78,8 +80,8 @@ class Backdoor extends BaseController
 
 	public function Welcome()
 	  {
-		
-	    echo view('Backdoor/welcome');
+		if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Welcome');
+		else echo view('Backdoor/Welcome');
 		
 	  }
 
@@ -91,8 +93,8 @@ class Backdoor extends BaseController
 			$data['katalog'] = $model->getKatalog();
 			$data['merek'] = $this->merek->findAll();
 			$data['kategori'] = $this->kategori->findAll();
-
-		    echo view('Backdoor/katalog', $data);
+			if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Katalog', $data);
+			else echo view('Backdoor/Katalog', $data);
 			
 		  }
 
@@ -186,7 +188,8 @@ class Backdoor extends BaseController
 			{
 				$model = new CustomModel;
 				$data['katalog'] = $model->getDeskripsi();
-				echo view('Backdoor/deskripsi', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Deskripsi', $data);
+				else echo view('Backdoor/Deskripsi', $data);
 				
 
 
@@ -229,14 +232,16 @@ class Backdoor extends BaseController
 	public function Merek()
 			{
 				$data['merek'] = $this->merek->findAll();
-				echo view('Backdoor/merek', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Merek', $data);
+				else echo view('Backdoor/Merek', $data);
 				
 			}
 
 	public function Kontak()
 			{
 				$data['kontak'] = $this->kontak->findAll();
-				echo view('Backdoor/kontak', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Kontak', $data);
+				else echo view('Backdoor/Admin/Kontak', $data);
 				
 			}
 	
@@ -304,7 +309,8 @@ class Backdoor extends BaseController
 				$model = new CustomModel;
 				$data['stok'] = $model->getStok();
 				$data['katalog'] = $this->katalog->findAll();
-				echo view('Backdoor/Stok', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Stok', $data);
+				else echo view('Backdoor/Stok', $data);
 				
 			}
 
@@ -312,7 +318,8 @@ class Backdoor extends BaseController
 			{
 				$model = new CustomModel;
 				$data['stok'] = $model->getHistory();
-				echo view('Backdoor/History', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/History', $data);
+				else echo view('Backdoor/History', $data);
 				
 			}
 
@@ -358,8 +365,8 @@ class Backdoor extends BaseController
 			{
 				$model = new CustomModel;
 				$data['kategori'] = $model->getKategori();
-				
-				echo view('Backdoor/Kategori', $data);
+				if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Kategori', $data);
+				else echo view('Backdoor/Kategori', $data);
 				
 			}
 
@@ -432,7 +439,8 @@ class Backdoor extends BaseController
 		//$session = session();
 		$data['admin'] = $this->user->find(session()->get('id_admin'));
 		//$session->setFlashdata('account_success', 'Password berhasil diubah');
-	    echo view('Backdoor/account', $data);
+		if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Account', $data);
+		else echo view('Backdoor/Account', $data);
 		
 	  }
 
@@ -459,6 +467,100 @@ class Backdoor extends BaseController
 			return redirect()->to('Backdoor/Account');
 		}
 	  }
+
+	public function Manage()
+	  {
+		$data['admin'] = $this->user->findAll();
+		if(session()->get('tipe_user') === "1") echo view('Backdoor/Admin/Manage', $data);
+		else echo view('Backdoor/Admin/Manage', $data);
+	  }
+
+	public function Add_Manage()
+		{
+			$session = session();
+			$username = $this->request->getPost('username');
+			$check = $this->user->where('username', $username)->first();
+			if(is_null($check)) {
+
+				$data = [
+					'username' => $username,
+					'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+					'tipe_user' => $this->request->getPost('tipe_user')
+							];
+
+				$session->setFlashdata('message', 'Admin'.' '.$username.' '.'berhasil ditambah');
+				$session->setFlashdata('icon', 'success');
+				$this->user->insert($data);
+				return redirect()->to('Backdoor/Manage');
+
+			} else{
+
+				$session->setFlashdata('message', 'Username' .' '.$username.' '.'sudah digunakan');
+				$session->setFlashdata('icon', 'error');
+				return redirect()->to('Backdoor/Manage');
+
+					}
+			}
+
+	public function Edit_Manage()
+	{
+		$session = session();
+		$id = $this->request->getPost('id_admin');
+		$username = $this->request->getPost('username');
+		$check = $this->user->where('username', $username)->first();
+
+		if(!is_null($check)) {
+			if($check['username'] == $username && $check['id_admin'] == $id) {
+				if($this->request->getPost('password') == NULL) {
+					$data = [
+						'username' => $username,
+						'tipe_user' => $this->request->getPost('tipe_user')
+							];
+
+				} else {
+					$data = [
+						'username' => $username,
+						'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+						'tipe_user' => $this->request->getPost('tipe_user')
+							];
+				}
+
+				$session->setFlashdata('message', 'Username berhasil diubah');
+				$session->setFlashdata('icon', 'success');
+				$this->user->update($id, $data);
+				return redirect()->to('Backdoor/Manage');
+			} else {
+				$session->setFlashdata('message', 'Akun tidak dapat diubah. Alasan : username sudah digunakan');
+				$session->setFlashdata('icon', 'error');
+				return redirect()->to('Backdoor/Manage');
+			}
+		} else {
+			if($this->request->getPost('password') == NULL) {
+				$data = [
+					'username' => $username,
+					'tipe_user' => $this->request->getPost('tipe_user')
+						];
+
+			} else {
+				$data = [
+					'username' => $username,
+					'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+					'tipe_user' => $this->request->getPost('tipe_user')
+						];
+			}
+			$session->setFlashdata('message', 'Username berhasil diubah');
+			$session->setFlashdata('icon', 'success');
+			
+			$this->user->update($id, $data);
+			return redirect()->to('Backdoor/Manage');
+		}
+	}
+	
+	public function Delete_Manage()
+		{
+			$this->user->delete($this->request->getPost('id_admin'));
+			return redirect()->to('Backdoor/Manage');
+		}
 			
 	 
 
